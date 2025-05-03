@@ -1,5 +1,4 @@
-
-import { Topic, Lesson, Quiz, Challenge } from "../types";
+import { Topic, Lesson, Quiz, Challenge, UserProfile } from "../types";
 
 // Topics data
 export const topics: Topic[] = [
@@ -305,8 +304,9 @@ export const quizzes: Quiz[] = [
 ];
 
 // Mock user profile
-export const userProfile: { user: { profile: UserProfile } } = {
+export const userProfile = {
   user: {
+    username: "algorithmLearner",
     profile: {
       id: "user123",
       username: "algorithmLearner",

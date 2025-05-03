@@ -18,7 +18,8 @@ import {
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 const Navbar = () => {
-  const profile = userProfile.user.profile;
+  const { user } = userProfile;
+  const { profile } = user;
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   
   return (
@@ -136,7 +137,7 @@ const Navbar = () => {
                   <Avatar className="h-8 w-8 transition-all hover:scale-110">
                     <AvatarImage src="https://i.pravatar.cc/150?img=68" />
                     <AvatarFallback className="bg-algo-purple-500 text-white">
-                      {profile.username.substring(0, 2).toUpperCase()}
+                      {user.username.substring(0, 2).toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
                 </Button>

@@ -1,4 +1,3 @@
-
 import React from "react";
 import Navbar from "@/components/Navbar";
 import StreakCounter from "@/components/StreakCounter";
@@ -12,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "react-router-dom";
+import { Badge } from "@/components/ui/badge";
 
 const Index = () => {
   const { user } = userProfile;
