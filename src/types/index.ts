@@ -54,3 +54,26 @@ export interface UserProfile {
   completedQuizzes: string[]; // array of quiz ids
   completedChallenges: string[]; // array of challenge ids
 }
+
+export interface DailyChallenge {
+  id: string;
+  title: string;
+  description: string;
+  difficulty: Difficulty;
+  points: number;
+  code?: string;
+  solution?: string;
+  question?: string;
+  options?: string[];
+  correctOptionIndex?: number;
+  completed: boolean;
+  date: string; // ISO date string
+}
+
+export interface UserStats {
+  daysStreak: number;
+  totalPoints: number;
+  completionRate: number;
+  averageScore: number;
+  badges: string[];
+}

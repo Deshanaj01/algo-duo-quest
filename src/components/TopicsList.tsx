@@ -41,14 +41,14 @@ const TopicsList: React.FC<TopicsListProps> = ({ topics }) => {
           <div className="p-6">
             <div className="flex justify-between items-start">
               <div 
-                className={`${topic.color} text-white p-3 rounded-lg mb-4 inline-flex`}
+                className={`${topic.color} text-white p-3 rounded-lg mb-4 inline-flex animate-pulse-gentle`}
               >
                 {iconMap[topic.iconName]}
               </div>
               {!topic.unlocked && <Lock className="h-5 w-5 text-gray-400" />}
             </div>
-            <h3 className="text-lg font-medium mb-1">{topic.title}</h3>
-            <p className="text-gray-500 text-sm mb-4">{topic.description}</p>
+            <h3 className="text-lg font-medium mb-1 dark:text-gray-100">{topic.title}</h3>
+            <p className="text-gray-500 dark:text-gray-400 text-sm mb-4">{topic.description}</p>
             <div className="mt-auto">
               <ProgressBar 
                 value={topic.completedLessons} 
@@ -62,20 +62,20 @@ const TopicsList: React.FC<TopicsListProps> = ({ topics }) => {
         return (
           <div 
             key={topic.id}
-            className={`topic-card bg-white rounded-xl shadow-sm relative overflow-hidden transition-all duration-300 hover:shadow-md animate-fade-in ${!topic.unlocked ? "grayscale-[70%]" : ""}`}
+            className={`topic-card bg-white dark:bg-gray-800 rounded-xl shadow-sm relative overflow-hidden transition-all duration-300 hover:shadow-md hover:-translate-y-1 animate-fade-in ${!topic.unlocked ? "grayscale-[70%]" : ""}`}
           >
             {topic.unlocked ? (
               <Link to={`/topics/${topic.id}`}>
                 {topicContent}
-                <div className="topic-card-overlay absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
-                  <span className="text-white font-medium">Start Learning</span>
+                <div className="topic-card-overlay absolute inset-0 bg-gradient-to-br from-transparent to-black/50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
+                  <span className="text-white font-medium bg-algo-purple-500 px-4 py-2 rounded-full shadow-lg transform transition-all duration-300 hover:scale-105">Start Learning</span>
                 </div>
               </Link>
             ) : (
               <div>
                 {topicContent}
-                <div className="topic-card-overlay absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
-                  <span className="text-white font-medium">Locked</span>
+                <div className="topic-card-overlay absolute inset-0 bg-gradient-to-br from-transparent to-black/70 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
+                  <span className="text-white font-medium bg-gray-600 px-4 py-2 rounded-full shadow-lg">Locked</span>
                 </div>
               </div>
             )}

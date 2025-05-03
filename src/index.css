@@ -102,24 +102,24 @@
 
 /* Quiz option styles */
 .quiz-option {
-  @apply border border-gray-200 rounded-lg p-3 transition-all duration-200 hover:border-algo-purple-500;
+  @apply border border-gray-200 dark:border-gray-700 rounded-lg p-3 transition-all duration-200 hover:border-algo-purple-500;
 }
 
 .quiz-option.selected {
-  @apply bg-algo-purple-100 border-algo-purple-500;
+  @apply bg-algo-purple-100 dark:bg-algo-purple-900/30 border-algo-purple-500;
 }
 
 .quiz-option.correct {
-  @apply bg-green-100 border-green-500;
+  @apply bg-green-100 dark:bg-green-900/30 border-green-500;
 }
 
 .quiz-option.incorrect {
-  @apply bg-red-100 border-red-500;
+  @apply bg-red-100 dark:bg-red-900/30 border-red-500;
 }
 
 /* Topic card styles */
 .topic-card {
-  @apply relative overflow-hidden bg-white rounded-xl shadow-md transition-transform duration-300 hover:scale-[1.02];
+  @apply relative overflow-hidden bg-white dark:bg-gray-800 rounded-xl shadow-md transition-transform duration-300 hover:scale-[1.02];
 }
 
 .topic-card-overlay {
@@ -128,21 +128,62 @@
 
 /* Visualizer styles */
 .visualizer-container {
-  @apply bg-white rounded-xl p-4 shadow-md;
+  @apply bg-white dark:bg-gray-800 rounded-xl p-4 shadow-md;
 }
 
 .array-element {
-  @apply flex items-center justify-center h-12 w-12 border border-gray-300 rounded-md bg-white transition-all duration-300;
+  @apply flex items-center justify-center h-12 w-12 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 dark:text-white transition-all duration-300;
 }
 
 .array-element.active {
-  @apply bg-algo-purple-200 border-algo-purple-500;
+  @apply bg-algo-purple-200 dark:bg-algo-purple-800 border-algo-purple-500;
 }
 
 .array-element.compared {
-  @apply bg-algo-blue-200 border-algo-blue-500;
+  @apply bg-algo-blue-200 dark:bg-algo-blue-800 border-algo-blue-500;
 }
 
 .array-element.sorted {
-  @apply bg-algo-green-200 border-algo-green-500;
+  @apply bg-algo-green-200 dark:bg-algo-green-800 border-algo-green-500;
+}
+
+/* New animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes shine {
+  from { background-position: 200% 0; }
+  to { background-position: 0 0; }
+}
+
+.shine-effect {
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  background-size: 200% 100%;
+  animation: shine 2s infinite;
+}
+
+/* Code editor styles */
+.code-editor {
+  @apply font-mono bg-gray-900 text-gray-100 rounded-lg p-4 shadow-inner;
+}
+
+/* Badges and achievements */
+.badge {
+  @apply inline-flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br transition-all duration-300 hover:scale-110;
+}
+
+.badge-locked {
+  @apply bg-gray-300 dark:bg-gray-700 grayscale;
+}
+
+/* Streak counter animation */
+.streak-flame {
+  @apply text-orange-500;
+  filter: drop-shadow(0 0 5px rgba(249, 115, 22, 0.5));
 }
