@@ -1,92 +1,69 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 260 60% 99%;
+    --foreground: 260 10% 10%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 260 10% 10%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 260 10% 10%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 260 95% 65%;
+    --primary-foreground: 260 10% 98%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 260 20% 96%;
+    --secondary-foreground: 260 10% 10%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 260 20% 96%;
+    --muted-foreground: 260 10% 40%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 200 80% 80%;
+    --accent-foreground: 260 10% 10%;
 
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 0 70% 60%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 260 20% 90%;
+    --input: 260 20% 90%;
+    --ring: 260 95% 65%;
 
-    --radius: 0.5rem;
-
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --radius: 0.75rem;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    --background: 260 10% 10%;
+    --foreground: 260 10% 98%;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 260 10% 15%;
+    --card-foreground: 260 10% 98%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 260 10% 15%;
+    --popover-foreground: 260 10% 98%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 260 95% 65%;
+    --primary-foreground: 260 10% 98%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 260 20% 20%;
+    --secondary-foreground: 260 10% 98%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 260 20% 20%;
+    --muted-foreground: 260 10% 70%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 200 80% 30%;
+    --accent-foreground: 260 10% 98%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 70% 50%;
+    --destructive-foreground: 260 10% 98%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --border: 260 20% 25%;
+    --input: 260 20% 25%;
+    --ring: 260 95% 65%;
   }
 }
 
@@ -98,4 +75,74 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Custom styles for the app */
+.lesson-card {
+  @apply transition-all duration-300 hover:shadow-lg hover:scale-[1.02];
+}
+
+.fire-icon {
+  @apply text-orange-500 animate-pulse-gentle;
+}
+
+.star-icon {
+  @apply text-yellow-400;
+}
+
+/* Progress bar animation */
+.progress-bar-fill {
+  @apply transition-all duration-500 ease-in-out;
+}
+
+/* Card effects */
+.card-hover-effect {
+  @apply transition-all duration-200 hover:shadow-md hover:-translate-y-1;
+}
+
+/* Quiz option styles */
+.quiz-option {
+  @apply border border-gray-200 rounded-lg p-3 transition-all duration-200 hover:border-algo-purple-500;
+}
+
+.quiz-option.selected {
+  @apply bg-algo-purple-100 border-algo-purple-500;
+}
+
+.quiz-option.correct {
+  @apply bg-green-100 border-green-500;
+}
+
+.quiz-option.incorrect {
+  @apply bg-red-100 border-red-500;
+}
+
+/* Topic card styles */
+.topic-card {
+  @apply relative overflow-hidden bg-white rounded-xl shadow-md transition-transform duration-300 hover:scale-[1.02];
+}
+
+.topic-card-overlay {
+  @apply absolute inset-0 bg-gradient-to-br from-transparent to-algo-purple-500/80 opacity-0 transition-opacity duration-300 hover:opacity-100;
+}
+
+/* Visualizer styles */
+.visualizer-container {
+  @apply bg-white rounded-xl p-4 shadow-md;
+}
+
+.array-element {
+  @apply flex items-center justify-center h-12 w-12 border border-gray-300 rounded-md bg-white transition-all duration-300;
+}
+
+.array-element.active {
+  @apply bg-algo-purple-200 border-algo-purple-500;
+}
+
+.array-element.compared {
+  @apply bg-algo-blue-200 border-algo-blue-500;
+}
+
+.array-element.sorted {
+  @apply bg-algo-green-200 border-algo-green-500;
 }
