@@ -96,12 +96,47 @@ export default {
 					700: "#198157",
 					800: "#10563a",
 					900: "#082b1d"
+				},
+				"algo-dark": {
+					100: "#d0d0d8",
+					200: "#a1a2b1",
+					300: "#73738b",
+					400: "#444564",
+					500: "#15163d", // Primary dark background
+					600: "#11123e",
+					700: "#0d0d2e",
+					800: "#08081f",
+					900: "#04040f"
+				},
+				"algo-accent": {
+					100: "#ffecf8",
+					200: "#fed9f1",
+					300: "#fec6ea",
+					400: "#fdb3e3",
+					500: "#fda0dc",
+					600: "#ca80b0",
+					700: "#986084",
+					800: "#654058",
+					900: "#33202c"
 				}
+			},
+			fontFamily: {
+				sans: ['Nunito', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+				heading: ['Poppins', 'ui-sans-serif', 'system-ui', 'sans-serif']
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
-				sm: 'calc(var(--radius) - 4px)'
+				sm: 'calc(var(--radius) - 4px)',
+				'2xl': '1rem',
+				'3xl': '1.5rem',
+			},
+			boxShadow: {
+				'soft': '0 4px 15px rgba(0, 0, 0, 0.1)',
+				'card': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+				'card-hover': '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+				'dark-soft': '0 4px 15px rgba(0, 0, 0, 0.3)',
+				'dark-card': '0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.2)',
 			},
 			keyframes: {
 				"accordion-down": {
@@ -139,6 +174,23 @@ export default {
 				"shine": {
 					"from": { backgroundPosition: "200% 0" },
 					"to": { backgroundPosition: "0 0" }
+				},
+				"pop": {
+					"0%": { transform: "scale(0.95)", opacity: "0.7" },
+					"50%": { transform: "scale(1.05)", opacity: "1" },
+					"100%": { transform: "scale(1)", opacity: "1" }
+				},
+				"slide-right": {
+					"0%": { transform: "translateX(-100%)", opacity: "0" },
+					"100%": { transform: "translateX(0)", opacity: "1" }
+				},
+				"slide-up": {
+					"0%": { transform: "translateY(20px)", opacity: "0" },
+					"100%": { transform: "translateY(0)", opacity: "1" }
+				},
+				"rotate-center": {
+					"0%": { transform: "rotate(0deg)" },
+					"100%": { transform: "rotate(360deg)" }
 				}
 			},
 			animation: {
@@ -149,7 +201,11 @@ export default {
 				"pulse-gentle": "pulse-gentle 1.5s ease-in-out infinite",
 				"scale-in": "scale-in 0.2s ease-out",
 				"float": "float 3s ease-in-out infinite",
-				"shine": "shine 2s infinite"
+				"shine": "shine 2s infinite",
+				"pop": "pop 0.3s ease-out",
+				"slide-right": "slide-right 0.4s ease-out",
+				"slide-up": "slide-up 0.4s ease-out",
+				"rotate-center": "rotate-center 0.6s ease-in-out",
 			}
 		}
 	},

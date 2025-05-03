@@ -9,6 +9,9 @@ import Index from "./pages/Index";
 import TopicPage from "./pages/TopicPage";
 import LessonPage from "./pages/LessonPage";
 import NotFound from "./pages/NotFound";
+import DailyChallengePanel from "./components/DailyChallengePanel"; 
+import ProfilePage from "./pages/ProfilePage";
+import CodePlayground from "./pages/CodePlayground";
 
 const queryClient = new QueryClient();
 
@@ -23,8 +26,11 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/topics/:topicId" element={<TopicPage />} />
             <Route path="/lessons/:lessonId" element={<LessonPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/playground" element={<CodePlayground />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
+          <DailyChallengePanel />
         </BrowserRouter>
       </TooltipProvider>
     </ThemeProvider>

@@ -5,7 +5,7 @@
 
 @layer base {
   :root {
-    --background: 260 60% 99%;
+    --background: 260 10% 95%;
     --foreground: 260 10% 10%;
 
     --card: 0 0% 100%;
@@ -37,16 +37,16 @@
   }
 
   .dark {
-    --background: 260 10% 10%;
+    --background: 260 30% 8%;
     --foreground: 260 10% 98%;
 
-    --card: 260 10% 15%;
+    --card: 260 20% 12%;
     --card-foreground: 260 10% 98%;
 
-    --popover: 260 10% 15%;
+    --popover: 260 20% 12%;
     --popover-foreground: 260 10% 98%;
 
-    --primary: 260 95% 65%;
+    --primary: 260 95% 70%;
     --primary-foreground: 260 10% 98%;
 
     --secondary: 260 20% 20%;
@@ -74,6 +74,11 @@
 
   body {
     @apply bg-background text-foreground;
+    font-family: 'Nunito', sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Poppins', sans-serif;
   }
 }
 
@@ -186,4 +191,63 @@
 .streak-flame {
   @apply text-orange-500;
   filter: drop-shadow(0 0 5px rgba(249, 115, 22, 0.5));
+}
+
+/* Dark mode enhancements */
+.dark .card {
+  @apply shadow-dark-card border-gray-800;
+}
+
+.dark .button-glow {
+  box-shadow: 0 0 15px rgba(109, 90, 253, 0.5);
+}
+
+/* Path layout styling for lesson map */
+.path-node {
+  @apply relative w-16 h-16 rounded-full flex items-center justify-center transition-all duration-300;
+}
+
+.path-node.completed {
+  @apply bg-algo-purple-500 text-white;
+}
+
+.path-node.current {
+  @apply bg-algo-accent-500 text-white animate-pulse-gentle;
+}
+
+.path-node.locked {
+  @apply bg-gray-400 dark:bg-gray-700 text-gray-600 dark:text-gray-500 grayscale;
+}
+
+.path-connector {
+  @apply absolute h-1 bg-gray-300 dark:bg-gray-700 transition-all duration-500;
+}
+
+.path-connector.completed {
+  @apply bg-algo-purple-500;
+}
+
+/* Welcome header animation */
+.welcome-header {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-algo-purple-400 via-algo-accent-500 to-algo-blue-500 animate-shine;
+  background-size: 200% auto;
+}
+
+/* Daily challenge button */
+.daily-challenge-btn {
+  @apply relative overflow-hidden bg-gradient-to-r from-algo-purple-500 via-algo-accent-500 to-algo-purple-600 text-white font-bold py-3 px-6 rounded-2xl shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105;
+}
+
+.daily-challenge-btn::after {
+  content: "";
+  @apply absolute inset-0 bg-white opacity-0 transition-opacity duration-300;
+}
+
+.daily-challenge-btn:hover::after {
+  @apply opacity-10;
+}
+
+/* Glassmorphism for cards */
+.glass-card {
+  @apply bg-white/10 dark:bg-white/5 backdrop-blur-lg border border-white/20 dark:border-white/10 rounded-2xl shadow-lg;
 }
