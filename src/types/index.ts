@@ -1,4 +1,3 @@
-
 export type Difficulty = 'beginner' | 'intermediate' | 'advanced';
 
 export interface Topic {
@@ -10,6 +9,8 @@ export interface Topic {
   totalLessons: number;
   completedLessons: number;
   unlocked: boolean;
+  unit?: number; // Add unit property as optional
+  section?: number; // Add section property as optional
 }
 
 export interface Lesson {

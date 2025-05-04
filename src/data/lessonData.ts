@@ -11,6 +11,8 @@ export const topics: Topic[] = [
     totalLessons: 5,
     completedLessons: 2,
     unlocked: true,
+    unit: 1,
+    section: 1,
   },
   {
     id: "linked-lists",
@@ -21,6 +23,8 @@ export const topics: Topic[] = [
     totalLessons: 4,
     completedLessons: 0,
     unlocked: true,
+    unit: 1, 
+    section: 2,
   },
   {
     id: "stacks",
@@ -31,6 +35,8 @@ export const topics: Topic[] = [
     totalLessons: 3,
     completedLessons: 0,
     unlocked: true,
+    unit: 1,
+    section: 3,
   },
   {
     id: "queues",
@@ -41,6 +47,8 @@ export const topics: Topic[] = [
     totalLessons: 3,
     completedLessons: 0,
     unlocked: false,
+    unit: 2,
+    section: 1,
   },
   {
     id: "recursion",
@@ -51,6 +59,8 @@ export const topics: Topic[] = [
     totalLessons: 4,
     completedLessons: 0,
     unlocked: false,
+    unit: 2,
+    section: 2,
   },
   {
     id: "sorting",
@@ -61,6 +71,8 @@ export const topics: Topic[] = [
     totalLessons: 6,
     completedLessons: 0,
     unlocked: false,
+    unit: 2,
+    section: 3,
   },
   {
     id: "searching",
@@ -71,6 +83,8 @@ export const topics: Topic[] = [
     totalLessons: 3,
     completedLessons: 0,
     unlocked: false,
+    unit: 3,
+    section: 1,
   },
   {
     id: "trees",
@@ -81,6 +95,8 @@ export const topics: Topic[] = [
     totalLessons: 5,
     completedLessons: 0,
     unlocked: false,
+    unit: 3,
+    section: 2,
   }
 ];
 
