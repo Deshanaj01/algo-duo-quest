@@ -1,7 +1,8 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { lessons, quizzes, userProfile } from "@/data/lessonData";
+import { arrayChallenges } from "@/data/arrayChallenges";
 import { CheckCircle, AlertCircle, ArrowLeft, ArrowRight, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -11,6 +12,7 @@ import { useToast } from "@/hooks/use-toast";
 import Navbar from "@/components/Navbar";
 import QuizCard from "@/components/QuizCard";
 import VisualizerCard from "@/components/VisualizerCard";
+import ArrayChallengeCard from "@/components/ArrayChallengeCard";
 import ReactMarkdown from "react-markdown";
 
 const LessonPage = () => {
@@ -24,8 +26,18 @@ const LessonPage = () => {
   // Find quizzes for this lesson
   const lessonQuizzes = quizzes.filter(q => q.id.includes(lesson?.topicId || ""));
   
-  // State for tracking quiz completion
+  // Find challenges for this topic if it's an array lesson
+  const lessonChallenges = lesson?.topicId === 'arrays' 
+    ? arrayChallenges.filter(c => {
+        if (lesson.id === 'array-problems-easy') return c.difficulty === 'beginner';
+        if (lesson.id === 'array-problems-intermediate') return c.difficulty === 'intermediate';
+        return false;
+      })
+    : [];
+  
+  // State for tracking quiz and challenge completion
   const [completedQuizzes, setCompletedQuizzes] = useState<Record<string, boolean>>({});
+  const [completedChallenges, setCompletedChallenges] = useState<Record<string, boolean>>({});
   const [earnedPoints, setEarnedPoints] = useState(0);
   const [lessonCompleted, setLessonCompleted] = useState(lesson?.completed || false);
   
@@ -40,12 +52,31 @@ const LessonPage = () => {
       setEarnedPoints(prev => prev + 5);
     }
     
-    // Check if all quizzes are completed correctly
-    const allCompleted = lessonQuizzes.every(q => 
-      completedQuizzes[q.id] || (q.id === quizId && correct)
-    );
+    checkCompletion();
+  };
+  
+  // Challenge completion handler
+  const handleChallengeComplete = (challengeId: string, success: boolean) => {
+    if (success) {
+      setCompletedChallenges(prev => ({
+        ...prev,
+        [challengeId]: true
+      }));
+      setEarnedPoints(prev => prev + 10);
+      
+      checkCompletion();
+    }
+  };
+  
+  const checkCompletion = () => {
+    // Check if all quizzes and required challenges are completed correctly
+    const allQuizzesCompleted = lessonQuizzes.length === 0 || 
+      lessonQuizzes.every(q => completedQuizzes[q.id]);
     
-    if (allCompleted && !lessonCompleted) {
+    const allChallengesCompleted = lessonChallenges.length === 0 || 
+      lessonChallenges.some(c => completedChallenges[c.id]);
+    
+    if (allQuizzesCompleted && allChallengesCompleted && !lessonCompleted) {
       setLessonCompleted(true);
       toast({
         title: "Lesson Completed!",
@@ -67,12 +98,16 @@ const LessonPage = () => {
       navigate(`/topics/${lesson?.topicId}`);
     } else {
       toast({
-        title: "Complete all quizzes",
-        description: "You need to correctly answer all quizzes to complete this lesson.",
+        title: "Complete all quizzes and at least one challenge",
+        description: "You need to correctly answer all quizzes and complete at least one challenge to complete this lesson.",
         variant: "destructive",
       });
     }
   };
+
+  useEffect(() => {
+    checkCompletion();
+  }, [completedQuizzes, completedChallenges]);
 
   if (!lesson) {
     return (
@@ -150,19 +185,40 @@ const LessonPage = () => {
               </div>
             )}
             
-            {/* Quizzes */}
-            <div className="mt-8">
-              <h2 className="text-xl font-bold mb-3">Test Your Knowledge</h2>
-              <div className="space-y-6">
-                {lessonQuizzes.map((quiz, index) => (
-                  <QuizCard 
-                    key={quiz.id} 
-                    quiz={quiz} 
-                    onComplete={(correct) => handleQuizComplete(quiz.id, correct)}
-                  />
-                ))}
+            {/* Coding challenges */}
+            {lessonChallenges.length > 0 && (
+              <div className="mt-8">
+                <h2 className="text-xl font-bold mb-3">Coding Challenges</h2>
+                <p className="text-muted-foreground mb-4">
+                  Complete at least one challenge to finish this lesson. Try to solve them yourself before checking the solution!
+                </p>
+                <div className="space-y-6">
+                  {lessonChallenges.map((challenge) => (
+                    <ArrayChallengeCard
+                      key={challenge.id}
+                      challenge={challenge}
+                      onComplete={(success) => handleChallengeComplete(challenge.id, success)}
+                    />
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
+            
+            {/* Quizzes */}
+            {lessonQuizzes.length > 0 && (
+              <div className="mt-8">
+                <h2 className="text-xl font-bold mb-3">Test Your Knowledge</h2>
+                <div className="space-y-6">
+                  {lessonQuizzes.map((quiz, index) => (
+                    <QuizCard 
+                      key={quiz.id} 
+                      quiz={quiz} 
+                      onComplete={(correct) => handleQuizComplete(quiz.id, correct)}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
           
           {/* Sidebar */}
@@ -181,21 +237,43 @@ const LessonPage = () => {
                 
                 <Separator />
                 
-                <div>
-                  <h3 className="text-sm font-medium mb-2">Quizzes</h3>
-                  {lessonQuizzes.map((quiz, index) => (
-                    <div key={quiz.id} className="flex items-center mb-2">
-                      {completedQuizzes[quiz.id] ? (
-                        <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
-                      ) : (
-                        <AlertCircle className="h-5 w-5 text-gray-300 mr-2" />
-                      )}
-                      <span className="text-gray-700">Quiz {index + 1}</span>
+                {lessonQuizzes.length > 0 && (
+                  <>
+                    <div>
+                      <h3 className="text-sm font-medium mb-2">Quizzes</h3>
+                      {lessonQuizzes.map((quiz, index) => (
+                        <div key={quiz.id} className="flex items-center mb-2">
+                          {completedQuizzes[quiz.id] ? (
+                            <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
+                          ) : (
+                            <AlertCircle className="h-5 w-5 text-gray-300 mr-2" />
+                          )}
+                          <span className="text-gray-700">Quiz {index + 1}</span>
+                        </div>
+                      ))}
                     </div>
-                  ))}
-                </div>
+                    <Separator />
+                  </>
+                )}
                 
-                <Separator />
+                {lessonChallenges.length > 0 && (
+                  <>
+                    <div>
+                      <h3 className="text-sm font-medium mb-2">Challenges</h3>
+                      {lessonChallenges.map((challenge, index) => (
+                        <div key={challenge.id} className="flex items-center mb-2">
+                          {completedChallenges[challenge.id] ? (
+                            <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
+                          ) : (
+                            <AlertCircle className="h-5 w-5 text-gray-300 mr-2" />
+                          )}
+                          <span className="text-gray-700">{challenge.title}</span>
+                        </div>
+                      ))}
+                    </div>
+                    <Separator />
+                  </>
+                )}
                 
                 <div>
                   <h3 className="text-sm font-medium mb-2">Points Earned</h3>
@@ -223,8 +301,6 @@ const LessonPage = () => {
                 )}
               </Button>
             </Card>
-            
-            {/* Related lessons (could be added here) */}
           </div>
         </div>
       </div>

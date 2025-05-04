@@ -1,3 +1,4 @@
+
 export type Difficulty = 'beginner' | 'intermediate' | 'advanced';
 
 export interface Topic {

@@ -38,6 +38,9 @@ const LessonPathItem: React.FC<LessonPathItemProps> = ({
     nodeContent = <Book className="h-6 w-6" />;
   }
   
+  // Check if this is a challenge lesson
+  const isChallenge = lesson.id.includes('problems') || lesson.id.includes('challenge');
+  
   return (
     <div className="duolingo-lesson-item">
       {!isFirst && <div 
@@ -49,7 +52,7 @@ const LessonPathItem: React.FC<LessonPathItemProps> = ({
           {nodeContent}
         </div>
         
-        <Card className={`duolingo-lesson-card flex-1 ${isLocked ? 'locked' : ''} ${isCompleted ? 'completed' : ''}`}>
+        <Card className={`duolingo-lesson-card flex-1 ${isLocked ? 'locked' : ''} ${isCompleted ? 'completed' : ''} ${isChallenge ? 'border-yellow-500/50 bg-yellow-500/5' : ''}`}>
           <div className="p-4">
             <div className="flex justify-between items-start mb-1">
               <h3 className="font-medium">{lesson.title}</h3>
@@ -73,9 +76,10 @@ const LessonPathItem: React.FC<LessonPathItemProps> = ({
                 <Link to={`/lessons/${lesson.id}`}>
                   <Button 
                     size="sm" 
-                    className={isCompleted ? 'bg-algo-green-500 hover:bg-algo-green-600' : 'bg-algo-purple-500 hover:bg-algo-purple-600'}
+                    className={isCompleted ? 'bg-algo-green-500 hover:bg-algo-green-600' : 
+                      isChallenge ? 'bg-yellow-500 hover:bg-yellow-600' : 'bg-algo-purple-500 hover:bg-algo-purple-600'}
                   >
-                    {isCompleted ? 'Review' : 'Start'}
+                    {isCompleted ? 'Review' : isChallenge ? 'Practice' : 'Start'}
                   </Button>
                 </Link>
               )}
