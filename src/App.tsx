@@ -12,6 +12,9 @@ import NotFound from "./pages/NotFound";
 import DailyChallengePanel from "./components/DailyChallengePanel"; 
 import ProfilePage from "./pages/ProfilePage";
 import CodePlayground from "./pages/CodePlayground";
+import AchievementsPage from "./pages/AchievementsPage";
+import DailyChallengePage from "./pages/DailyChallengePage";
+import ProgressPage from "./pages/ProgressPage";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +31,9 @@ const App = () => (
             <Route path="/lessons/:lessonId" element={<LessonPage />} />
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/playground" element={<CodePlayground />} />
+            <Route path="/achievements" element={<AchievementsPage />} />
+            <Route path="/daily-challenge" element={<DailyChallengePage />} />
+            <Route path="/progress" element={<ProgressPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <DailyChallengePanel />

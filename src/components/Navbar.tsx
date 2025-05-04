@@ -1,7 +1,7 @@
 
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { Book, User, Star, Code, Award, BellRing } from "lucide-react";
+import { Book, User, Star, Code, Award, BellRing, BarChart, Calendar, Flag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { userProfile } from "@/data/lessonData";
 import { ThemeToggle } from "@/components/ThemeToggle";
@@ -36,6 +36,22 @@ const Navbar = () => {
                 AlgoDuoQuest
               </span>
             </Link>
+            
+            {/* Navigation Links */}
+            <div className="hidden md:flex ml-8 space-x-4">
+              <Link to="/daily-challenge" className="text-muted-foreground hover:text-foreground px-3 py-2 rounded-md text-sm font-medium transition-colors flex items-center">
+                <Flag className="h-4 w-4 mr-1" /> Challenges
+              </Link>
+              <Link to="/progress" className="text-muted-foreground hover:text-foreground px-3 py-2 rounded-md text-sm font-medium transition-colors flex items-center">
+                <BarChart className="h-4 w-4 mr-1" /> Progress
+              </Link>
+              <Link to="/achievements" className="text-muted-foreground hover:text-foreground px-3 py-2 rounded-md text-sm font-medium transition-colors flex items-center">
+                <Award className="h-4 w-4 mr-1" /> Achievements
+              </Link>
+              <Link to="/playground" className="text-muted-foreground hover:text-foreground px-3 py-2 rounded-md text-sm font-medium transition-colors flex items-center">
+                <Code className="h-4 w-4 mr-1" /> Playground
+              </Link>
+            </div>
           </div>
 
           <div className="flex items-center space-x-3">
@@ -93,11 +109,13 @@ const Navbar = () => {
                 <DropdownMenuLabel>Notifications</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <div className="max-h-80 overflow-y-auto">
-                  <DropdownMenuItem className="flex flex-col items-start cursor-pointer">
-                    <span className="font-medium">New Daily Challenge</span>
-                    <span className="text-xs text-muted-foreground">Complete today's sorting challenge</span>
-                    <Badge variant="outline" className="mt-1 text-[10px] bg-algo-purple-500/10">5 min ago</Badge>
-                  </DropdownMenuItem>
+                  <Link to="/daily-challenge">
+                    <DropdownMenuItem className="flex flex-col items-start cursor-pointer">
+                      <span className="font-medium">New Daily Challenge</span>
+                      <span className="text-xs text-muted-foreground">Complete today's sorting challenge</span>
+                      <Badge variant="outline" className="mt-1 text-[10px] bg-algo-purple-500/10">5 min ago</Badge>
+                    </DropdownMenuItem>
+                  </Link>
                   <DropdownMenuItem className="flex flex-col items-start cursor-pointer">
                     <span className="font-medium">Streak Reminder</span>
                     <span className="text-xs text-muted-foreground">Don't break your 7-day streak!</span>
@@ -110,25 +128,27 @@ const Navbar = () => {
             {/* Theme Toggle */}
             <ThemeToggle />
 
-            {/* Code Playground */}
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Link to="/playground">
-                    <Button 
-                      variant="ghost" 
-                      size="icon"
-                      className="text-gray-300 hover:text-white"
-                    >
-                      <Code className="h-5 w-5" />
-                    </Button>
-                  </Link>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Code Playground</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            {/* Code Playground - moved to navigation links */}
+            <div className="md:hidden">
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Link to="/playground">
+                      <Button 
+                        variant="ghost" 
+                        size="icon"
+                        className="text-gray-300 hover:text-white"
+                      >
+                        <Code className="h-5 w-5" />
+                      </Button>
+                    </Link>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Code Playground</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
 
             {/* Profile Dropdown */}
             <DropdownMenu>
@@ -151,14 +171,18 @@ const Navbar = () => {
                     <span>Profile</span>
                   </DropdownMenuItem>
                 </Link>
-                <DropdownMenuItem className="cursor-pointer">
-                  <Award className="mr-2 h-4 w-4" />
-                  <span>Achievements</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem className="cursor-pointer">
-                  <Star className="mr-2 h-4 w-4" />
-                  <span>Progress</span>
-                </DropdownMenuItem>
+                <Link to="/achievements">
+                  <DropdownMenuItem className="cursor-pointer">
+                    <Award className="mr-2 h-4 w-4" />
+                    <span>Achievements</span>
+                  </DropdownMenuItem>
+                </Link>
+                <Link to="/progress">
+                  <DropdownMenuItem className="cursor-pointer">
+                    <Star className="mr-2 h-4 w-4" />
+                    <span>Progress</span>
+                  </DropdownMenuItem>
+                </Link>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem className="cursor-pointer">
                   <span>Sign out</span>

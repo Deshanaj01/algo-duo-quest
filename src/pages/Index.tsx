@@ -1,3 +1,4 @@
+
 import React from "react";
 import Navbar from "@/components/Navbar";
 import StreakCounter from "@/components/StreakCounter";
@@ -29,10 +30,8 @@ const Index = () => {
   const availableTopics = recommendedTopics.filter(topic => topic.completedLessons === 0);
   
   const handleStartDailyChallenge = () => {
-    toast({
-      title: "Daily Challenge Started",
-      description: "Solve today's algorithm problem to earn 25 points!",
-    });
+    // Instead of just showing toast, navigate to the daily challenge page
+    window.location.href = '/daily-challenge';
   };
 
   return (
@@ -55,7 +54,7 @@ const Index = () => {
             <Card className="shadow-md border-white/5 animate-fade-in">
               <CardHeader className="pb-3 flex flex-row items-center justify-between">
                 <CardTitle className="text-xl">Progress</CardTitle>
-                <Link to="/profile">
+                <Link to="/progress">
                   <Button variant="ghost" size="sm">View All</Button>
                 </Link>
               </CardHeader>
@@ -104,19 +103,24 @@ const Index = () => {
                   </div>
                 </div>
                 
-                <Button 
-                  className="w-full daily-challenge-btn" 
-                  onClick={handleStartDailyChallenge}
-                >
-                  <Play className="h-4 w-4 mr-2" />
-                  Start Daily Challenge
-                </Button>
+                <Link to="/daily-challenge">
+                  <Button 
+                    className="w-full daily-challenge-btn" 
+                    onClick={handleStartDailyChallenge}
+                  >
+                    <Play className="h-4 w-4 mr-2" />
+                    Start Daily Challenge
+                  </Button>
+                </Link>
               </CardContent>
             </Card>
             
             <Card className="shadow-md border-white/5 animate-fade-in delay-100">
-              <CardHeader className="pb-3">
+              <CardHeader className="pb-3 flex flex-row items-center justify-between">
                 <CardTitle className="text-lg">Algorithm Visualizer</CardTitle>
+                <Link to="/playground">
+                  <Button variant="ghost" size="sm">Open</Button>
+                </Link>
               </CardHeader>
               <CardContent>
                 <VisualizerCard 
@@ -169,8 +173,11 @@ const Index = () => {
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <Card className="shadow-md border-white/5 animate-fade-in delay-300">
-                <CardHeader className="pb-3">
+                <CardHeader className="pb-3 flex flex-row items-center justify-between">
                   <CardTitle className="text-lg">Interactive Challenges</CardTitle>
+                  <Link to="/daily-challenge">
+                    <Button variant="ghost" size="sm">View All</Button>
+                  </Link>
                 </CardHeader>
                 <CardContent className="space-y-3">
                   <div className="bg-muted/30 p-4 rounded-lg flex items-start space-x-4 hover:bg-muted/50 transition-all cursor-pointer">
@@ -206,8 +213,11 @@ const Index = () => {
               </Card>
               
               <Card className="shadow-md border-white/5 animate-fade-in delay-400">
-                <CardHeader className="pb-3">
+                <CardHeader className="pb-3 flex flex-row items-center justify-between">
                   <CardTitle className="text-lg">Achievements</CardTitle>
+                  <Link to="/achievements">
+                    <Button variant="ghost" size="sm">View All</Button>
+                  </Link>
                 </CardHeader>
                 <CardContent className="space-y-3">
                   <div className="flex justify-between items-center bg-muted/30 p-4 rounded-lg">
