@@ -1,3 +1,4 @@
+
 import React from 'react';
 import Navbar from '@/components/Navbar';
 import { userProfile } from '@/data/lessonData';
@@ -11,7 +12,7 @@ import { Badge } from '@/components/ui/badge';
 
 const ProfilePage = () => {
   const { user } = userProfile;
-  const { profile } = user.profile;
+  const profile = user.profile;
 
   // Calculate points needed for next level
   const pointsForNextLevel = profile.level * 100;
