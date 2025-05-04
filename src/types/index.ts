@@ -11,6 +11,7 @@ export interface Topic {
   unlocked: boolean;
   unit?: number; // Add unit property as optional
   section?: number; // Add section property as optional
+  prerequisiteTopics?: string[]; // Add prerequisiteTopics property as optional
 }
 
 export interface Lesson {

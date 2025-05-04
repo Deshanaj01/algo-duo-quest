@@ -1,10 +1,10 @@
-
 import React from "react";
 import Navbar from "@/components/Navbar";
 import StreakCounter from "@/components/StreakCounter";
 import TopicsList from "@/components/TopicsList";
 import ProgressBar from "@/components/ProgressBar";
 import VisualizerCard from "@/components/VisualizerCard";
+import LearningPathway from "@/components/LearningPathway";
 import { topics, userProfile } from "@/data/lessonData";
 import { Book, Award, Star, CheckCircle, Flag, Play } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -133,12 +133,28 @@ const Index = () => {
           
           {/* Right column - Topics */}
           <div className="lg:col-span-2 space-y-6">
+            {/* Learning Pathway Section - New! */}
+            <Card className="shadow-md border-white/5 animate-fade-in">
+              <CardHeader className="pb-3 flex flex-row items-center justify-between">
+                <div>
+                  <CardTitle className="text-xl">Complete Learning Path</CardTitle>
+                  <p className="text-muted-foreground text-sm mt-1">
+                    Follow this path to master data structures and algorithms
+                  </p>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <LearningPathway topics={topics} />
+              </CardContent>
+            </Card>
+            
+            {/* Original Topics Card with Tabs */}
             <Card className="shadow-md border-white/5 animate-fade-in delay-200">
               <CardHeader className="pb-3 flex flex-row items-center justify-between">
                 <div>
-                  <CardTitle className="text-xl">Learning Paths</CardTitle>
+                  <CardTitle className="text-xl">Topic Explorer</CardTitle>
                   <p className="text-muted-foreground text-sm mt-1">
-                    Master data structures and algorithms step by step
+                    Browse all available topics
                   </p>
                 </div>
                 <Button variant="ghost" size="sm">View All</Button>

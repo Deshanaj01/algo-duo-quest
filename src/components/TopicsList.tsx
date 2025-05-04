@@ -13,7 +13,11 @@ import {
   ChartPie,
   Lock,
   Layers3,
-  ArrowRight
+  ArrowRight,
+  Text,
+  Network,
+  Star,
+  CheckCircle
 } from "lucide-react";
 import ProgressBar from "./ProgressBar";
 import { Badge } from "@/components/ui/badge";
@@ -35,6 +39,9 @@ const TopicsList: React.FC<TopicsListProps> = ({ topics }) => {
     "bar-chart": <BarChart className="h-6 w-6" />,
     search: <Search className="h-6 w-6" />,
     "chart-pie": <ChartPie className="h-6 w-6" />,
+    text: <Text className="h-6 w-6" />,
+    network: <Network className="h-6 w-6" />,
+    star: <Star className="h-6 w-6" />,
   };
 
   if (topics.length === 0) {
@@ -45,27 +52,47 @@ const TopicsList: React.FC<TopicsListProps> = ({ topics }) => {
     );
   }
 
+  // Sort topics by unit and section to show correct progression
+  const sortedTopics = [...topics].sort((a, b) => {
+    if (a.unit !== b.unit) return (a.unit || 0) - (b.unit || 0);
+    return (a.section || 0) - (b.section || 0);
+  });
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
-      {topics.map((topic, index) => {
+      {sortedTopics.map((topic, index) => {
+        const isComplete = topic.completedLessons === topic.totalLessons;
+        
         const topicContent = (
           <div className="p-6 flex flex-col h-full">
             <div className="flex justify-between items-start">
               <div 
-                className={`${topic.color} text-white p-3 rounded-lg mb-4 inline-flex animate-pulse-gentle shadow-lg`}
+                className={`${topic.color} text-white p-3 rounded-lg mb-4 inline-flex ${topic.unlocked ? "animate-pulse-gentle" : ""} shadow-lg`}
               >
                 {iconMap[topic.iconName]}
               </div>
               {!topic.unlocked && <Lock className="h-5 w-5 text-gray-400" />}
               
-              {topic.completedLessons > 0 && (
-                <Badge className={`${topic.completedLessons === topic.totalLessons ? 'bg-green-900/30 text-green-300' : 'bg-yellow-900/30 text-yellow-300'}`}>
-                  {topic.completedLessons === topic.totalLessons ? 'Completed' : 'In Progress'}
+              {isComplete ? (
+                <Badge className="bg-green-900/30 text-green-300 flex items-center gap-1">
+                  <CheckCircle className="h-3 w-3" />
+                  <span>Completed</span>
+                </Badge>
+              ) : topic.completedLessons > 0 && (
+                <Badge className="bg-yellow-900/30 text-yellow-300">
+                  In Progress
                 </Badge>
               )}
             </div>
-            <h3 className="text-lg font-medium mb-1">{topic.title}</h3>
-            <p className="text-muted-foreground text-sm mb-4 flex-grow">{topic.description}</p>
+            <div>
+              <div className="flex items-center gap-2">
+                <h3 className="text-lg font-medium">{topic.title}</h3>
+                <Badge variant="outline" className="text-xs">
+                  Unit {topic.unit}-{topic.section}
+                </Badge>
+              </div>
+              <p className="text-muted-foreground text-sm mb-4 flex-grow">{topic.description}</p>
+            </div>
             <div className="mt-auto space-y-3">
               <div className="flex justify-between text-xs">
                 <span>{topic.completedLessons} of {topic.totalLessons} lessons completed</span>
@@ -77,6 +104,22 @@ const TopicsList: React.FC<TopicsListProps> = ({ topics }) => {
                 showLabel={false}
                 size="sm"
               />
+              
+              {/* Prerequisites for locked topics */}
+              {!topic.unlocked && topic.prerequisiteTopics && topic.prerequisiteTopics.length > 0 && (
+                <div className="mt-2 text-xs text-muted-foreground">
+                  <span className="font-medium">Prerequisites: </span>
+                  {topic.prerequisiteTopics.map((prereqId, idx) => {
+                    const prereq = topics.find(t => t.id === prereqId);
+                    return (
+                      <span key={prereqId} className="me-1">
+                        {prereq?.title || prereqId}
+                        {idx < topic.prerequisiteTopics!.length - 1 ? ", " : ""}
+                      </span>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           </div>
         );
@@ -91,7 +134,7 @@ const TopicsList: React.FC<TopicsListProps> = ({ topics }) => {
                 {topicContent}
                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-algo-purple-500/20 to-transparent p-4 flex justify-end opacity-0 hover:opacity-100 transition-opacity duration-300">
                   <Button size="sm" className="bg-algo-purple-500 hover:bg-algo-purple-600">
-                    <span>Start Learning</span>
+                    <span>{topic.completedLessons > 0 ? "Continue" : "Start Learning"}</span>
                     <ArrowRight className="h-4 w-4 ml-1" />
                   </Button>
                 </div>
@@ -103,7 +146,7 @@ const TopicsList: React.FC<TopicsListProps> = ({ topics }) => {
                   <div className="bg-card/80 backdrop-blur-sm p-4 rounded-lg text-center shadow-xl">
                     <Lock className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
                     <h4 className="font-medium mb-1">Topic Locked</h4>
-                    <p className="text-sm text-muted-foreground">Complete previous topics to unlock</p>
+                    <p className="text-sm text-muted-foreground">Complete prerequisite topics to unlock</p>
                   </div>
                 </div>
               </div>

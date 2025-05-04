@@ -1,6 +1,6 @@
 import { Topic, Lesson, Quiz, Challenge, UserProfile } from "../types";
 
-// Topics data
+// Topics data with clear progression path
 export const topics: Topic[] = [
   {
     id: "arrays",
@@ -13,6 +13,20 @@ export const topics: Topic[] = [
     unlocked: true,
     unit: 1,
     section: 1,
+    prerequisiteTopics: [],
+  },
+  {
+    id: "strings",
+    title: "Strings",
+    description: "Master string manipulation and common operations.",
+    iconName: "text",
+    color: "bg-emerald-500",
+    totalLessons: 4,
+    completedLessons: 0,
+    unlocked: false,
+    unit: 1,
+    section: 2,
+    prerequisiteTopics: ["arrays"],
   },
   {
     id: "linked-lists",
@@ -22,9 +36,10 @@ export const topics: Topic[] = [
     color: "bg-algo-blue-500",
     totalLessons: 4,
     completedLessons: 0,
-    unlocked: true,
+    unlocked: false,
     unit: 1, 
-    section: 2,
+    section: 3,
+    prerequisiteTopics: ["arrays", "strings"],
   },
   {
     id: "stacks",
@@ -34,9 +49,10 @@ export const topics: Topic[] = [
     color: "bg-algo-green-500",
     totalLessons: 3,
     completedLessons: 0,
-    unlocked: true,
+    unlocked: false,
     unit: 1,
-    section: 3,
+    section: 4,
+    prerequisiteTopics: ["linked-lists"],
   },
   {
     id: "queues",
@@ -49,6 +65,7 @@ export const topics: Topic[] = [
     unlocked: false,
     unit: 2,
     section: 1,
+    prerequisiteTopics: ["linked-lists"],
   },
   {
     id: "recursion",
@@ -61,6 +78,7 @@ export const topics: Topic[] = [
     unlocked: false,
     unit: 2,
     section: 2,
+    prerequisiteTopics: ["arrays", "stacks"],
   },
   {
     id: "sorting",
@@ -73,6 +91,7 @@ export const topics: Topic[] = [
     unlocked: false,
     unit: 2,
     section: 3,
+    prerequisiteTopics: ["arrays", "recursion"],
   },
   {
     id: "searching",
@@ -85,6 +104,7 @@ export const topics: Topic[] = [
     unlocked: false,
     unit: 3,
     section: 1,
+    prerequisiteTopics: ["arrays", "sorting"],
   },
   {
     id: "trees",
@@ -97,6 +117,33 @@ export const topics: Topic[] = [
     unlocked: false,
     unit: 3,
     section: 2,
+    prerequisiteTopics: ["recursion", "searching"],
+  },
+  {
+    id: "graphs",
+    title: "Graphs",
+    description: "Learn about graph representations and algorithms.",
+    iconName: "network",
+    color: "bg-indigo-500",
+    totalLessons: 5,
+    completedLessons: 0,
+    unlocked: false,
+    unit: 3,
+    section: 3,
+    prerequisiteTopics: ["trees"],
+  },
+  {
+    id: "dynamic-programming",
+    title: "Dynamic Programming",
+    description: "Master optimization techniques for complex problems.",
+    iconName: "star",
+    color: "bg-red-500",
+    totalLessons: 5,
+    completedLessons: 0,
+    unlocked: false,
+    unit: 4,
+    section: 1,
+    prerequisiteTopics: ["recursion", "arrays"],
   }
 ];
 
@@ -336,3 +383,48 @@ export const userProfile = {
     }
   }
 };
+
+// Function to determine if a topic should be unlocked based on prerequisites
+export const shouldTopicBeUnlocked = (topicId: string, completedTopics: string[]): boolean => {
+  const topic = topics.find(t => t.id === topicId);
+  
+  // If topic doesn't exist or has no prerequisites, it should be unlocked
+  if (!topic || !topic.prerequisiteTopics || topic.prerequisiteTopics.length === 0) {
+    return true;
+  }
+  
+  // Check if all prerequisites are completed
+  return topic.prerequisiteTopics.every(prereq => 
+    completedTopics.includes(prereq)
+  );
+};
+
+// Update topic unlock status based on user progress
+export const updateTopicUnlockStatus = (userCompletedTopics: string[]) => {
+  // First topic is always unlocked
+  if (topics.length > 0) {
+    topics[0].unlocked = true;
+  }
+  
+  // For each topic except the first one, check if prerequisites are met
+  for (let i = 1; i < topics.length; i++) {
+    const topic = topics[i];
+    
+    // A topic is unlocked if all its prerequisites are in the user's completed topics
+    // Or if the previous topic is completed (basic linear progression)
+    const prevTopicCompleted = i > 0 && 
+      userCompletedTopics.includes(topics[i-1].id);
+      
+    const prerequisitesMet = shouldTopicBeUnlocked(topic.id, userCompletedTopics);
+    
+    topic.unlocked = prevTopicCompleted || prerequisitesMet;
+  }
+  
+  return topics;
+};
+
+// Example: update unlock status based on user's completed topics
+updateTopicUnlockStatus(userProfile.user.profile.completedLessons.map(lessonId => {
+  const lesson = lessons.find(l => l.id === lessonId);
+  return lesson ? lesson.topicId : "";
+}).filter(Boolean));
