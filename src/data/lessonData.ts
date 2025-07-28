@@ -199,11 +199,11 @@ export const lessons: Lesson[] = [
       
       In memory, an array of integers might look like this:
       
-      ```
+      \`\`\`
       Index:  0    1    2    3    4
       Value:  1   10    3    4    5
       Memory: 1000 1004 1008 1012 1016
-      ```
+      \`\`\`
       
       Each integer takes 4 bytes of memory, so the addresses are 4 bytes apart.
       This arrangement allows the computer to quickly calculate the exact memory address of any element.
@@ -593,7 +593,7 @@ export const lessons: Lesson[] = [
       [1, 10, 3, 4, 5, 6, 7, 8, 9]
       ```
       
-      The computer uses a formula to find the right element: `address = baseAddress + (row * numCols + col) * elementSize`
+      The computer uses a formula to find the right element: \`address = baseAddress + (row * numCols + col) * elementSize\`
     `,
     difficulty: "intermediate",
     points: 25,
