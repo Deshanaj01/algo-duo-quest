@@ -7,14 +7,56 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Duolingo Green Palette
+        // AlgoVisual Color Scheme
+        algo: {
+          dark: {
+            bg: {
+              primary: '#0f172a',    // Very dark blue-gray
+              secondary: '#1e293b',  // Dark blue-gray
+              tertiary: '#334155',   // Medium blue-gray
+              card: '#1e293b',       // Card background
+              input: '#0f172a',      // Input backgrounds
+            },
+            text: {
+              primary: '#f8fafc',    // White text
+              secondary: '#cbd5e1',  // Light gray text
+              muted: '#64748b',      // Muted text
+            },
+            border: {
+              primary: '#334155',    // Border color
+              secondary: '#475569',  // Lighter border
+            },
+            accent: {
+              blue: '#3b82f6',       // Blue accent
+              purple: '#8b5cf6',     // Purple accent
+              green: '#10b981',      // Green accent
+              yellow: '#f59e0b',     // Yellow accent
+              orange: '#f97316',     // Orange accent
+              red: '#ef4444',        // Red accent
+              pink: '#ec4899',       // Pink accent
+            }
+          },
+          light: {
+            bg: {
+              primary: '#ffffff',
+              secondary: '#f8fafc',
+              tertiary: '#f1f5f9',
+            },
+            text: {
+              primary: '#0f172a',
+              secondary: '#475569',
+              muted: '#64748b',
+            }
+          }
+        },
+        // Original Duolingo colors for backward compatibility
         duo: {
           green: {
             50: '#E5F7E5',
             100: '#C8EFC8',
             200: '#A3E5A3',
             300: '#7EDB7E',
-            400: '#58CC02', // Primary Duolingo Green
+            400: '#58CC02',
             500: '#4CAF00',
             600: '#3D8B00',
             700: '#2E6800',
@@ -26,7 +68,7 @@ module.exports = {
             100: '#BAE7FF',
             200: '#91D5FF',
             300: '#69C0FF',
-            400: '#1CB0F6', // Duolingo Blue
+            400: '#1CB0F6',
             500: '#1890FF',
             600: '#096DD9',
             700: '#0050B3',
@@ -34,62 +76,50 @@ module.exports = {
             900: '#002766',
           },
           yellow: {
-            400: '#FFC800', // Duolingo Gold/Yellow
+            400: '#FFC800',
             500: '#FFB020',
           },
           red: {
-            400: '#FF4B4B', // Duolingo Red for errors
+            400: '#FF4B4B',
             500: '#E53935',
           },
           purple: {
-            400: '#CE82FF', // Duolingo Purple for special
+            400: '#CE82FF',
             500: '#B366F5',
-          },
-          gray: {
-            50: '#FAFAFA',
-            100: '#F5F5F5',
-            200: '#E8E8E8',
-            300: '#D4D4D4',
-            400: '#AFAFAF',
-            500: '#777777',
-            600: '#5C5C5C',
-            700: '#3C3C3C',
-            800: '#2B2B2B',
-            900: '#1F1F1F',
           }
         },
-        // Dark mode colors for coders
+        // Keep dark colors for backward compatibility
         dark: {
           bg: {
-            primary: '#0d1117',    // GitHub dark bg
-            secondary: '#161b22',  // Slightly lighter
-            tertiary: '#21262d',   // Card backgrounds
-            code: '#0d1117',       // Code block bg
+            primary: '#0d1117',
+            secondary: '#161b22',
+            tertiary: '#21262d',
+            code: '#0d1117',
           },
           text: {
-            primary: '#f0f6fc',    // Main text
-            secondary: '#8b949e',  // Secondary text
-            muted: '#6e7681',      // Muted text
+            primary: '#f0f6fc',
+            secondary: '#8b949e',
+            muted: '#6e7681',
           },
           border: {
-            primary: '#30363d',    // Main borders
-            secondary: '#21262d',  // Subtle borders
+            primary: '#30363d',
+            secondary: '#21262d',
           },
           accent: {
-            blue: '#58a6ff',       // VS Code blue
-            green: '#7ee787',      // Success green
-            purple: '#d2a8ff',     // VS Code purple
-            yellow: '#f9e2af',     // Warning yellow
-            red: '#ffa198',        // Error red
-            orange: '#ffab70',     // Highlight orange
+            blue: '#58a6ff',
+            green: '#7ee787',
+            purple: '#d2a8ff',
+            yellow: '#f9e2af',
+            red: '#ffa198',
+            orange: '#ffab70',
           },
           syntax: {
-            keyword: '#ff7b72',    // Keywords (red)
-            string: '#a5d6ff',     // Strings (light blue)
-            number: '#79c0ff',     // Numbers (blue)
-            comment: '#8b949e',    // Comments (gray)
-            function: '#d2a8ff',   // Functions (purple)
-            variable: '#ffa657',   // Variables (orange)
+            keyword: '#ff7b72',
+            string: '#a5d6ff',
+            number: '#79c0ff',
+            comment: '#8b949e',
+            function: '#d2a8ff',
+            variable: '#ffa657',
           }
         }
       },

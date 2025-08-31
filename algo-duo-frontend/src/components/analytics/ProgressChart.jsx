@@ -48,4 +48,4 @@ const ProgressChart = ({ data }) => {
   );
 };
 
-export default ProgressChart;
+export default ProgressChart;   

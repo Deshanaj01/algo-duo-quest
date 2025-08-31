@@ -20,4 +20,4 @@ export const submissionService = {
     const response = await api.get('/submissions/recent', { params: { limit } });
     return response.data;
   }
-};
+};  
