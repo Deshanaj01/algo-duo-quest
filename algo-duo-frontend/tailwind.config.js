@@ -1,55 +1,40 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./src/**/*.{js,jsx,ts,tsx}",
+    "./src/**/*.{html,js,jsx,ts,tsx,css}",
   ],
   darkMode: 'class',
   theme: {
     extend: {
       colors: {
-        // AlgoVisual Color Scheme
-        algo: {
-          dark: {
-            bg: {
-              primary: '#0f172a',    // Very dark blue-gray
-              secondary: '#1e293b',  // Dark blue-gray
-              tertiary: '#334155',   // Medium blue-gray
-              card: '#1e293b',       // Card background
-              input: '#0f172a',      // Input backgrounds
-            },
-            text: {
-              primary: '#f8fafc',    // White text
-              secondary: '#cbd5e1',  // Light gray text
-              muted: '#64748b',      // Muted text
-            },
-            border: {
-              primary: '#334155',    // Border color
-              secondary: '#475569',  // Lighter border
-            },
-            accent: {
-              blue: '#3b82f6',       // Blue accent
-              purple: '#8b5cf6',     // Purple accent
-              green: '#10b981',      // Green accent
-              yellow: '#f59e0b',     // Yellow accent
-              orange: '#f97316',     // Orange accent
-              red: '#ef4444',        // Red accent
-              pink: '#ec4899',       // Pink accent
-            }
-          },
-          light: {
-            bg: {
-              primary: '#ffffff',
-              secondary: '#f8fafc',
-              tertiary: '#f1f5f9',
-            },
-            text: {
-              primary: '#0f172a',
-              secondary: '#475569',
-              muted: '#64748b',
-            }
-          }
+        "algo-purple": {
+          100: "#EDE9FE",
+          200: "#DDD6FE",
+          400: "#A78BFA",
+          500: "#8B5CF6",
+          600: '#7c3aed',
+          800: "#4C1D95",
+          900: "#2E1065",
         },
-        // Original Duolingo colors for backward compatibility
+        "algo-blue": {
+          200: "#BFDBFE",
+          500: "#3B82F6",
+          800: "#1E40AF",
+        },
+        "algo-green": {
+          200: "#BBF7D0",
+          500: "#22C55E",
+          800: "#166534",
+        },
+        "algo-accent": {
+          500: "#6D5AFD",
+        },
+        // 🔥 Added missing custom colors
+        "algo-dark": {
+          "accent-purple": "#6D5AFD",   // for bg-algo-dark-accent-purple
+          "bg-tertiary": "#21262d",     // for dark:bg-algo-dark-bg-tertiary
+        },
+        // Original Duolingo colors
         duo: {
           green: {
             50: '#E5F7E5',
@@ -88,7 +73,6 @@ module.exports = {
             500: '#B366F5',
           }
         },
-        // Keep dark colors for backward compatibility
         dark: {
           bg: {
             primary: '#0d1117',
@@ -128,6 +112,8 @@ module.exports = {
         'nunito': ['Nunito', 'system-ui', 'sans-serif'],
       },
       animation: {
+        shine: 'shine 2s infinite',
+        "pulse-gentle": "pulse-gentle 2s ease-in-out infinite",
         'bounce-slow': 'bounce 2s infinite',
         'float': 'float 3s ease-in-out infinite',
         'pulse-slow': 'pulse 3s infinite',
@@ -136,6 +122,10 @@ module.exports = {
         'pop': 'pop 0.3s ease-out',
       },
       keyframes: {
+        shine: {
+          '0%': { backgroundPosition: '200% 0' },
+          '100%': { backgroundPosition: '0 0' },
+        },
         float: {
           '0%, 100%': { transform: 'translateY(0)' },
           '50%': { transform: 'translateY(-10px)' },
@@ -153,14 +143,23 @@ module.exports = {
           '80%': { transform: 'scale(1.1)' },
           '100%': { transform: 'scale(1)', opacity: '1' },
         },
+        "pulse-gentle": {
+            "0%, 100%": { opacity: 1 },
+            "50%": { opacity: 0.7 },
+        },
       },
       boxShadow: {
         'duo': '0 4px 0 0 rgba(0,0,0,0.1)',
         'duo-lg': '0 6px 0 0 rgba(0,0,0,0.1)',
         'duo-button': '0 4px 0 0 #3D8B00',
         'duo-button-active': '0 2px 0 0 #3D8B00',
+        'dark-card': '0 4px 10px rgba(0, 0, 0, 0.6)', // 🔥 Added
       },
+      borderColor: theme => ({
+        ...theme('colors'),
+        DEFAULT: theme('colors.gray.700', 'currentColor'),
+      }),
     },
   },
   plugins: [],
-} 
+}
