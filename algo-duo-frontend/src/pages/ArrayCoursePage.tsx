@@ -1,228 +1,377 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { Play, Clock, ArrowRight, BookOpen } from 'lucide-react';
-import { allArrayLessons } from '../data/arrayLessons.ts';
+import { 
+  Trophy, 
+  Zap, 
+  Target, 
+  BookOpen, 
+  Code, 
+  Flame,
+  ArrowRight
+} from 'lucide-react';
+import CourseLessonCard from '../components/CourseLessonCard.tsx';
+import { useCourseProgress } from '../context/CourseProgressContext';
+import { useGame } from '../context/GameContext';
 import {
   BookSticker,
   TrophySticker,
-  TargetSticker,
-  ZapSticker,
-  SearchSticker,
   GridSticker,
-  BrainSticker,
   RocketSticker,
+  CodeSticker,
+  CpuSticker,
   StickerGroup,
   AnimatedBadge
 } from '../components/AnimatedStickers.tsx';
-import { RotateCcw } from 'lucide-react';
 
 const ArrayCoursePage = () => {
   const navigate = useNavigate();
+  const { userStats } = useGame();
+  const { lessons, getProgressByLevel, getTotalProgress, getNextAvailableLesson } = useCourseProgress();
+  const [activeLevel, setActiveLevel] = useState<1 | 2 | 3>(1);
 
-  const lessons = Object.entries(allArrayLessons).map(([id, lesson], index) => ({
-    ...lesson,
-    order: index + 1,
-    duration: `${lesson.steps.length * 3}-${lesson.steps.length * 5} min`,
-    difficulty: getDifficultyFromSteps(lesson.steps.length),
-    completed: false 
-  }));
+  // Course statistics
+  const totalLessons = lessons.length;
+  const completedLessons = lessons.filter(l => l.completed);
+  const overallProgress = getTotalProgress();
+  const totalXP = completedLessons.reduce((total, lesson) => total + lesson.xpReward, 0);
+  const nextLesson = getNextAvailableLesson();
 
-  function getDifficultyFromSteps(stepCount: number) {
-    if (stepCount <= 3) return 'Beginner';
-    if (stepCount <= 5) return 'Intermediate';
-    return 'Advanced';
-  }
-
-  const getDifficultyColor = (difficulty: string) => {
-    switch (difficulty) {
-      case 'Beginner': return 'text-green-400 bg-green-400/10';
-      case 'Intermediate': return 'text-yellow-400 bg-yellow-400/10';
-      case 'Advanced': return 'text-red-400 bg-red-400/10';
-      default: return 'text-gray-400 bg-gray-400/10';
+  const levelData = {
+    1: {
+      title: 'Beginner',
+      subtitle: 'Array Fundamentals',
+      description: 'Master the basics of arrays, indexing, and simple operations',
+      color: 'from-green-500 to-emerald-600',
+      bgGradient: 'from-green-900/20 via-emerald-900/10 to-teal-900/20',
+      borderColor: 'border-green-500/30',
+      icon: <BookSticker size={32} animation="float" delay={0} />,
+      lessons: lessons.filter(l => l.level === 1),
+      progress: getProgressByLevel(1),
+      badge: '🌱 Novice'
+    },
+    2: {
+      title: 'Intermediate',
+      subtitle: 'Algorithms & Techniques',
+      description: 'Learn advanced search algorithms and optimization techniques',
+      color: 'from-yellow-500 to-orange-500',
+      bgGradient: 'from-yellow-900/20 via-orange-900/10 to-red-900/20',
+      borderColor: 'border-yellow-500/30',
+      icon: <CodeSticker size={32} animation="wobble" delay={0} />,
+      lessons: lessons.filter(l => l.level === 2),
+      progress: getProgressByLevel(2),
+      badge: '⚡ Explorer'
+    },
+    3: {
+      title: 'Advanced',
+      subtitle: '2D Arrays & Complex Problems',
+      description: 'Master matrices, complex algorithms, and optimization challenges',
+      color: 'from-red-500 to-pink-600',
+      bgGradient: 'from-red-900/20 via-pink-900/10 to-purple-900/20',
+      borderColor: 'border-red-500/30',
+      icon: <CpuSticker size={32} animation="pulse" delay={0} />,
+      lessons: lessons.filter(l => l.level === 3),
+      progress: getProgressByLevel(3),
+      badge: '👑 Master'
     }
   };
 
+  const currentLevel = levelData[activeLevel];
+
   return (
     <div className="min-h-screen bg-gray-900 text-white">
-      {/* Hero Section */}
-      <div className="bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 py-20">
-        <div className="max-w-6xl mx-auto px-6">
+      {/* Hero Section with Gamification */}
+      <div className="relative bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 py-16 overflow-hidden">
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMSIgZmlsbD0iIzMzM2VkMiIgZmlsbC1vcGFjaXR5PSIwLjEiLz4KPC9zdmc+')] opacity-40" />
+        
+        <div className="max-w-7xl mx-auto px-6 relative">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-center"
+            className="text-center mb-12"
           >
-            <div className="flex items-center justify-center mb-6">
-              <BookSticker size={48} animation="float" delay={0} />
-              <h1 className="text-5xl font-bold ml-4">
-                Array Mastery Course
-              </h1>
-            </div>
-            <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
-              Master arrays with interactive visualizations, step-by-step explanations, 
-              and hands-on practice. From basics to advanced techniques.
-            </p>
-            <StickerGroup animation="fadeIn" delay={0.3} className="flex justify-center items-center space-x-8 text-sm">
-              <div className="flex items-center space-x-2">
-                <BookSticker size={20} color="#60A5FA" animation="pulse" />
-                <span>{lessons.length} Interactive Lessons</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Clock className="w-5 h-5 text-green-400" />
-                <span>2-3 Hours Total</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <TrophySticker size={20} color="#FBBF24" animation="bounce" />
-                <span>Beginner Friendly</span>
+            <StickerGroup animation="slideIn" delay={0} className="flex items-center justify-center mb-6 space-x-4">
+              <GridSticker size={48} animation="float" delay={0} />
+              <div className="text-left">
+                <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+                  Array Mastery Quest
+                </h1>
+                <p className="text-gray-300 text-lg mt-2">Master Data Structures Through Interactive Learning</p>
               </div>
             </StickerGroup>
+
+            {/* Course Stats */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                className="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10"
+              >
+                <div className="flex items-center justify-center mb-2">
+                  <TrophySticker size={24} animation="bounce" />
+                </div>
+                <div className="text-2xl font-bold text-white">{completedLessons.length}</div>
+                <div className="text-gray-300 text-sm">Completed</div>
+              </motion.div>
+
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10"
+              >
+                <div className="flex items-center justify-center mb-2">
+                  <Zap className="w-6 h-6 text-yellow-400" />
+                </div>
+                <div className="text-2xl font-bold text-yellow-400">{totalXP}</div>
+                <div className="text-gray-300 text-sm">XP Earned</div>
+              </motion.div>
+
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                className="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10"
+              >
+                <div className="flex items-center justify-center mb-2">
+                  <Target className="w-6 h-6 text-green-400" />
+                </div>
+                <div className="text-2xl font-bold text-green-400">{Math.round(overallProgress)}%</div>
+                <div className="text-gray-300 text-sm">Progress</div>
+              </motion.div>
+
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+                className="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10"
+              >
+                <div className="flex items-center justify-center mb-2">
+                  <Flame className="w-6 h-6 text-orange-400" />
+                </div>
+                <div className="text-2xl font-bold text-orange-400">{userStats.streakDays}</div>
+                <div className="text-gray-300 text-sm">Day Streak</div>
+              </motion.div>
+            </div>
+
+            {/* Overall Progress Bar */}
+            <div className="mt-8 max-w-2xl mx-auto">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-gray-300">Course Progress</span>
+                <span className="text-white font-medium">{completedLessons.length} / {totalLessons}</span>
+              </div>
+              <div className="bg-gray-700/50 rounded-full h-3 overflow-hidden">
+                <motion.div
+                  className="bg-gradient-to-r from-blue-500 to-purple-500 h-full rounded-full"
+                  initial={{ width: 0 }}
+                  animate={{ width: `${overallProgress}%` }}
+                  transition={{ duration: 1.5, delay: 0.6 }}
+                />
+              </div>
+            </div>
           </motion.div>
         </div>
       </div>
 
-      {/* Course Progress */}
-      <div className="max-w-6xl mx-auto px-6 py-12">
-        <div className="bg-gray-800 rounded-lg p-6 mb-12">
-          <h2 className="text-2xl font-semibold mb-4">Your Progress</h2>
-          <div className="flex items-center space-x-4">
-            <div className="flex-1 bg-gray-700 rounded-full h-3">
-              <motion.div
-                className="bg-gradient-to-r from-blue-500 to-purple-500 h-3 rounded-full"
-                initial={{ width: 0 }}
-                animate={{ width: '0%' }} // This would be dynamic based on actual progress
-                transition={{ duration: 1, delay: 0.5 }}
-              />
-            </div>
-            <span className="text-gray-400">0 / {lessons.length} completed</span>
-          </div>
-        </div>
-
-        {/* Lessons Grid */}
-        <div className="space-y-6">
-          <h2 className="text-3xl font-bold mb-8">Course Curriculum</h2>
-          {lessons.map((lesson, index) => (
-            <motion.div
-              key={lesson.id}
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="bg-gray-800 rounded-lg p-6 hover:bg-gray-750 transition-colors group cursor-pointer"
-              onClick={() => navigate(`/lesson/${lesson.id}`)}
-            >
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-6">
-                  {/* Lesson Number */}
-                  <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center font-bold">
-                    {lesson.order}
-                  </div>
-                  
-                  {/* Lesson Info */}
-                  <div className="flex-1">
-                    <h3 className="text-xl font-semibold mb-2 group-hover:text-blue-400 transition-colors">
-                      {lesson.title}
-                    </h3>
-                    <p className="text-gray-400 mb-3">
-                      {lesson.description}
-                    </p>
-                    
-                    {/* Lesson Metadata */}
-                    <div className="flex items-center space-x-4 text-sm">
-                      <span className={`px-3 py-1 rounded-full ${getDifficultyColor(lesson.difficulty)}`}>
-                        {lesson.difficulty}
-                      </span>
-                      <div className="flex items-center space-x-1 text-gray-400">
-                        <Clock className="w-4 h-4" />
-                        <span>{lesson.duration}</span>
-                      </div>
-                      <div className="flex items-center space-x-1 text-gray-400">
-                        <BookOpen className="w-4 h-4" />
-                        <span>{lesson.steps.length} steps</span>
+      {/* Level Tabs */}
+      <div className="max-w-7xl mx-auto px-6 -mt-8 relative z-10">
+        <div className="bg-gray-800/80 backdrop-blur-sm rounded-xl p-2 border border-gray-700/50">
+          <div className="flex space-x-2">
+            {Object.entries(levelData).map(([level, data]) => {
+              const levelNum = parseInt(level) as 1 | 2 | 3;
+              const isActive = activeLevel === levelNum;
+              const isUnlocked = levelNum === 1 || getProgressByLevel((levelNum - 1) as 1 | 2 | 3) >= 80;
+              
+              return (
+                <motion.button
+                  key={level}
+                  whileHover={{ scale: isUnlocked ? 1.02 : 1 }}
+                  whileTap={{ scale: isUnlocked ? 0.98 : 1 }}
+                  onClick={() => isUnlocked && setActiveLevel(levelNum)}
+                  className={`
+                    flex-1 px-6 py-4 rounded-lg transition-all duration-200 relative overflow-hidden
+                    ${isActive 
+                      ? `bg-gradient-to-r ${data.color} text-white shadow-lg` 
+                      : isUnlocked 
+                        ? 'bg-gray-700/50 hover:bg-gray-600/50 text-gray-200 hover:text-white'
+                        : 'bg-gray-800/50 text-gray-500 cursor-not-allowed'
+                    }
+                  `}
+                  disabled={!isUnlocked}
+                >
+                  <div className="flex items-center justify-center space-x-3">
+                    {data.icon}
+                    <div className="text-left">
+                      <div className="font-semibold">{data.title}</div>
+                      <div className="text-sm opacity-80">{data.badge}</div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-sm opacity-80">{Math.round(data.progress)}%</div>
+                      <div className="w-16 bg-white/20 rounded-full h-1 mt-1">
+                        <div 
+                          className="bg-white h-1 rounded-full transition-all duration-300" 
+                          style={{ width: `${data.progress}%` }}
+                        />
                       </div>
                     </div>
                   </div>
-                </div>
-                
-                {/* Action Button */}
-                <div className="flex items-center space-x-4">
-                  {lesson.completed ? (
-                    <div className="text-green-400 font-semibold">✓ Completed</div>
-                  ) : (
-                    <button className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition-colors">
-                      <Play className="w-4 h-4" />
-                      <span>Start</span>
-                    </button>
+                  
+                  {isActive && (
+                    <motion.div
+                      layoutId="activeTab"
+                      className="absolute inset-0 bg-gradient-to-r from-white/5 to-transparent rounded-lg"
+                    />
                   )}
-                  <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors" />
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Course Benefits */}
-        <div className="mt-16 bg-gradient-to-r from-indigo-900/50 to-purple-900/50 rounded-lg p-8">
-          <h2 className="text-2xl font-bold mb-6 text-center">What You'll Learn</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              {
-                sticker: <TargetSticker size={32} animation="pulse" delay={0} />,
-                title: 'Array Fundamentals',
-                description: 'Understand what arrays are and how they work in memory'
-              },
-              {
-                sticker: <ZapSticker size={32} animation="scale" delay={0.1} />,
-                title: 'Operations & Performance',
-                description: 'Master insertion, deletion, and time complexity analysis'
-              },
-              {
-                sticker: <SearchSticker size={32} animation="wobble" delay={0.2} />,
-                title: 'Search Algorithms',
-                description: 'Learn linear and binary search with visual demonstrations'
-              },
-              {
-                sticker: <RotateCcw size={32} color="#8B5CF6" />,
-                title: 'Traversal Techniques',
-                description: 'Explore different ways to iterate through arrays efficiently'
-              },
-              {
-                sticker: <GridSticker size={32} animation="float" delay={0.3} />,
-                title: '2D Arrays & Matrices',
-                description: 'Work with multi-dimensional data structures and patterns'
-              },
-              {
-                sticker: <BrainSticker size={32} animation="pulse" delay={0.4} />,
-                title: 'Problem Solving',
-                description: 'Apply array concepts to solve real-world coding challenges'
-              }
-            ].map((benefit, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.8 + index * 0.1 }}
-                className="text-center"
-              >
-                <div className="mb-3 flex justify-center">{benefit.sticker}</div>
-                <h3 className="font-semibold mb-2">{benefit.title}</h3>
-                <p className="text-gray-400 text-sm">{benefit.description}</p>
-              </motion.div>
-            ))}
+                </motion.button>
+              );
+            })}
           </div>
         </div>
-
-        {/* Get Started */}
-        <div className="text-center mt-12">
-          <button
-            onClick={() => navigate('/lesson/arrays-introduction')}
-            className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 px-8 py-4 rounded-lg font-semibold text-lg transition-colors flex items-center mx-auto space-x-3"
-          >
-            <RocketSticker size={24} animation="bounce" />
-            <span>Start Your Array Journey</span>
-          </button>
-        </div>
       </div>
+
+      {/* Level Content */}
+      <div className="max-w-7xl mx-auto px-6 py-12">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeLevel}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3 }}
+          >
+            {/* Level Header */}
+            <div className={`bg-gradient-to-r ${currentLevel.bgGradient} rounded-xl p-8 border ${currentLevel.borderColor} mb-8`}>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-4">
+                  {currentLevel.icon}
+                  <div>
+                    <h2 className="text-3xl font-bold text-white mb-2">
+                      Level {activeLevel}: {currentLevel.title}
+                    </h2>
+                    <p className="text-xl text-gray-300 mb-2">{currentLevel.subtitle}</p>
+                    <p className="text-gray-400">{currentLevel.description}</p>
+                  </div>
+                </div>
+                
+                <div className="text-right">
+                  <div className="text-3xl font-bold text-white mb-1">{Math.round(currentLevel.progress)}%</div>
+                  <div className="text-gray-300 text-sm mb-3">Complete</div>
+                  <AnimatedBadge color="white" bgColor={currentLevel.color.split(' ')[1].replace('to-', '')}>
+                    {currentLevel.badge}
+                  </AnimatedBadge>
+                </div>
+              </div>
+            </div>
+
+            {/* Lessons by Type */}
+            <div className="space-y-8">
+              {/* Concept Lessons */}
+              {currentLevel.lessons.filter(lesson => lesson.type === 'concept').length > 0 && (
+                <div>
+                  <div className="flex items-center space-x-3 mb-6">
+                    <BookOpen className="w-6 h-6 text-blue-400" />
+                    <h3 className="text-2xl font-bold">Concept Lessons</h3>
+                    <div className="flex-1 h-px bg-gradient-to-r from-blue-400/50 to-transparent" />
+                  </div>
+                  <div className="grid gap-6">
+                    {currentLevel.lessons
+                      .filter(lesson => lesson.type === 'concept')
+                      .map((lesson, index) => (
+                        <CourseLessonCard key={lesson.id} lesson={lesson} index={index} />
+                      ))
+                    }
+                  </div>
+                </div>
+              )}
+
+              {/* Playground Problems */}
+              {currentLevel.lessons.filter(lesson => lesson.type === 'playground').length > 0 && (
+                <div>
+                  <div className="flex items-center space-x-3 mb-6">
+                    <Code className="w-6 h-6 text-emerald-400" />
+                    <h3 className="text-2xl font-bold">Practice Problems</h3>
+                    <div className="flex-1 h-px bg-gradient-to-r from-emerald-400/50 to-transparent" />
+                  </div>
+                  <div className="grid gap-6">
+                    {currentLevel.lessons
+                      .filter(lesson => lesson.type === 'playground')
+                      .map((lesson, index) => (
+                        <CourseLessonCard key={lesson.id} lesson={lesson} index={index} />
+                      ))
+                    }
+                  </div>
+                </div>
+              )}
+
+              {/* Revision & Mastery Tests */}
+              {currentLevel.lessons.filter(lesson => lesson.type === 'revision' || lesson.type === 'mastery').length > 0 && (
+                <div>
+                  <div className="flex items-center space-x-3 mb-6">
+                    <Trophy className="w-6 h-6 text-orange-400" />
+                    <h3 className="text-2xl font-bold">Assessments</h3>
+                    <div className="flex-1 h-px bg-gradient-to-r from-orange-400/50 to-transparent" />
+                  </div>
+                  <div className="grid gap-6">
+                    {currentLevel.lessons
+                      .filter(lesson => lesson.type === 'revision' || lesson.type === 'mastery')
+                      .map((lesson, index) => (
+                        <CourseLessonCard key={lesson.id} lesson={lesson} index={index} />
+                      ))
+                    }
+                  </div>
+                </div>
+              )}
+            </div>
+          </motion.div>
+        </AnimatePresence>
+      </div>
+
+      {/* Continue Learning CTA */}
+      {nextLesson && (
+        <div className="max-w-7xl mx-auto px-6 pb-12">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-gradient-to-r from-purple-900/50 to-blue-900/50 rounded-xl p-8 border border-purple-500/30"
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-4">
+                <RocketSticker size={40} animation="bounce" />
+                <div>
+                  <h3 className="text-2xl font-bold text-white mb-2">Continue Your Journey</h3>
+                  <p className="text-gray-300">Next up: {nextLesson.title}</p>
+                </div>
+              </div>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => {
+                  switch (nextLesson.type) {
+                    case 'concept':
+                      navigate(`/lesson/${nextLesson.id}`);
+                      break;
+                    case 'playground':
+                      navigate(`/playground/${nextLesson.id}`);
+                      break;
+                    case 'revision':
+                      navigate(`/revision/${nextLesson.level}`);
+                      break;
+                    case 'mastery':
+                      navigate('/mastery-test');
+                      break;
+                  }
+                }}
+                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 px-8 py-4 rounded-lg font-semibold text-lg transition-colors flex items-center space-x-3"
+              >
+                <span>Continue Learning</span>
+                <ArrowRight className="w-5 h-5" />
+              </motion.button>
+            </div>
+          </motion.div>
+        </div>
+      )}
     </div>
   );
 };

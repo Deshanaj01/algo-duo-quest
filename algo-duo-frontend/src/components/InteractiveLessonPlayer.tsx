@@ -26,12 +26,14 @@ interface InteractiveLessonPlayerProps {
   lessonTitle: string;
   steps: LessonStep[];
   onComplete?: () => void;
+  onBack?: () => void;
 }
 
 const InteractiveLessonPlayer: React.FC<InteractiveLessonPlayerProps> = ({
   lessonTitle,
   steps,
-  onComplete
+  onComplete,
+  onBack
 }) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -41,6 +43,32 @@ const InteractiveLessonPlayer: React.FC<InteractiveLessonPlayerProps> = ({
   const currentStepData = steps[currentStep];
   const isLastStep = currentStep === steps.length - 1;
   const isFirstStep = currentStep === 0;
+
+  if (!steps || steps.length === 0) {
+    return (
+      <div className="bg-gray-900 min-h-screen">
+        {onBack && (
+          <div className="bg-gray-800 border-b border-gray-700 px-6 py-4">
+            <div className="max-w-6xl mx-auto">
+              <button
+                onClick={onBack}
+                className="flex items-center space-x-2 text-gray-300 hover:text-white transition-colors"
+              >
+                <span className="text-xl">←</span>
+                <span>Back to Course</span>
+              </button>
+            </div>
+          </div>
+        )}
+        <div className="max-w-6xl mx-auto p-6">
+          <div className="bg-gray-800 rounded-lg p-6 text-center">
+            <h1 className="text-2xl font-bold text-white mb-2">{lessonTitle}</h1>
+            <p className="text-gray-300">This lesson has no content yet. Please check back later.</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const nextStep = () => {
     if (currentStep < steps.length - 1) {
@@ -73,10 +101,26 @@ const InteractiveLessonPlayer: React.FC<InteractiveLessonPlayerProps> = ({
   };
 
   return (
-    <div className="max-w-6xl mx-auto p-6 bg-gray-900 min-h-screen">
-      {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-white mb-2">{lessonTitle}</h1>
+    <div className="bg-gray-900 min-h-screen">
+      {/* Navigation Header */}
+      {onBack && (
+        <div className="bg-gray-800 border-b border-gray-700 px-6 py-4">
+          <div className="max-w-6xl mx-auto">
+            <button
+              onClick={onBack}
+              className="flex items-center space-x-2 text-gray-300 hover:text-white transition-colors"
+            >
+              <span className="text-xl">←</span>
+              <span>Back to Course</span>
+            </button>
+          </div>
+        </div>
+      )}
+      
+      <div className="max-w-6xl mx-auto p-6">
+        {/* Header */}
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-white mb-2">{lessonTitle}</h1>
         <div className="flex items-center justify-between">
           <div className="text-gray-400">
             Step {currentStep + 1} of {steps.length}
@@ -230,6 +274,7 @@ const InteractiveLessonPlayer: React.FC<InteractiveLessonPlayerProps> = ({
           <span>{isLastStep ? 'Complete' : 'Next'}</span>
           <ChevronRight size={20} />
         </button>
+        </div>
       </div>
     </div>
   );
