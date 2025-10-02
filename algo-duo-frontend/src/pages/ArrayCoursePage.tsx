@@ -11,8 +11,8 @@ import {
   ArrowRight
 } from 'lucide-react';
 import CourseLessonCard from '../components/CourseLessonCard.tsx';
-import { useCourseProgress } from '../context/CourseProgressContext';
-import { useGame } from '../context/GameContext';
+import { useCourseProgress } from '../context/CourseProgressContext.tsx';
+import { useGame } from '../context/GameContext.tsx';
 import {
   BookSticker,
   TrophySticker,

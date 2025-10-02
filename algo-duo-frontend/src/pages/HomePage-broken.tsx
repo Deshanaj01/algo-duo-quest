@@ -60,7 +60,7 @@ const HomePage = () => {
       }}>
         <Link to="/" style={{ textDecoration: 'none' }}>
           <h1 style={{ margin: 0, color: '#00ff88', display: 'flex', alignItems: 'center', gap: '10px' }}>
-            🚀 Algo Duo Quest
+            🚀 Code Pilot
           </h1>
         </Link>
         
