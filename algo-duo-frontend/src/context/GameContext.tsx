@@ -1,4 +1,7 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState } from 'react';
+import { xpThresholds, getLevelForXP, getLevelBounds, getProgressForXP } from '../utils/xp.ts';
+import { useAuth } from './AuthContext.tsx';
+import { updateXP } from '../services/firestoreService.ts';
 
 // Types for gamification
 export interface Achievement {
@@ -43,7 +46,7 @@ interface GameContextType {
   userStats: UserStats;
   achievements: Achievement[];
   badges: Badge[];
-  earnXP: (amount: number, reason: string) => void;
+  earnXP: (amount: number, reason: string) => void; // persists to backend if user logged in
   unlockAchievement: (achievementId: string) => void;
   incrementStreak: () => void;
   completeLesson: (lessonId: string, score: number) => void;
@@ -162,34 +165,39 @@ const initialAchievements: Achievement[] = [
   }
 ];
 
-// Level titles and requirements
+// Level titles and dynamic thresholds (thresholds come from utils/xp)
 const levelInfo = [
-  { level: 1, title: 'Novice', icon: '🌱', color: '#4ade80', xpRequired: 0 },
-  { level: 2, title: 'Learner', icon: '📚', color: '#3b82f6', xpRequired: 100 },
-  { level: 3, title: 'Explorer', icon: '🔍', color: '#8b5cf6', xpRequired: 250 },
-  { level: 4, title: 'Practitioner', icon: '⚡', color: '#f59e0b', xpRequired: 500 },
-  { level: 5, title: 'Specialist', icon: '🎯', color: '#ef4444', xpRequired: 1000 },
-  { level: 6, title: 'Expert', icon: '💪', color: '#06b6d4', xpRequired: 1800 },
-  { level: 7, title: 'Master', icon: '🏆', color: '#d946ef', xpRequired: 3000 },
-  { level: 8, title: 'Grandmaster', icon: '👑', color: '#f97316', xpRequired: 5000 },
-  { level: 9, title: 'Legend', icon: '⭐', color: '#eab308', xpRequired: 8000 },
-  { level: 10, title: 'Algorithm God', icon: '🌟', color: '#dc2626', xpRequired: 12000 }
+  { level: 1, title: 'Novice', icon: '🌱', color: '#4ade80' },
+  { level: 2, title: 'Learner', icon: '📚', color: '#3b82f6' },
+  { level: 3, title: 'Explorer', icon: '🔍', color: '#8b5cf6' },
+  { level: 4, title: 'Practitioner', icon: '⚡', color: '#f59e0b' },
+  { level: 5, title: 'Specialist', icon: '🎯', color: '#ef4444' },
+  { level: 6, title: 'Expert', icon: '💪', color: '#06b6d4' },
+  { level: 7, title: 'Master', icon: '🏆', color: '#d946ef' },
+  { level: 8, title: 'Grandmaster', icon: '👑', color: '#f97316' },
+  { level: 9, title: 'Legend', icon: '⭐', color: '#eab308' },
+  { level: 10, title: 'Algorithm God', icon: '🌟', color: '#dc2626' }
 ];
 
+
 export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { user } = useAuth();
+
+  const initialXP = 0;
+  const prog = getProgressForXP(initialXP);
   const [userStats, setUserStats] = useState<UserStats>({
-    level: 2,
-    totalXP: 145,
-    currentLevelXP: 45,
-    xpToNextLevel: 105,
-    streakDays: 3,
-    longestStreak: 5,
-    lessonsCompleted: 2,
-    challengesCompleted: 1,
-    totalTimeSpent: 120,
-    averageScore: 87,
-    rank: 'Learner',
-    joinDate: new Date(2024, 0, 15)
+    level: prog.level,
+    totalXP: initialXP,
+    currentLevelXP: prog.currentLevelXP,
+    xpToNextLevel: prog.xpToNextLevel,
+    streakDays: 0,
+    longestStreak: 0,
+    lessonsCompleted: 0,
+    challengesCompleted: 0,
+    totalTimeSpent: 0,
+    averageScore: 0,
+    rank: levelInfo.find(l => l.level === prog.level)?.title || 'Novice',
+    joinDate: new Date()
   });
 
   const [achievements, setAchievements] = useState<Achievement[]>(initialAchievements);
@@ -205,8 +213,9 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   ]);
 
   const getXPForLevel = (level: number): number => {
-    const levelData = levelInfo.find(l => l.level === level);
-    return levelData?.xpRequired || 0;
+    // Cumulative XP required to reach the given level
+    const idx = Math.max(0, level - 1);
+    return xpThresholds[idx] ?? 0;
   };
 
   const getLevelInfo = (level: number) => {
@@ -219,34 +228,57 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const calculateLevel = (totalXP: number): number => {
-    for (let i = levelInfo.length - 1; i >= 0; i--) {
-      if (totalXP >= levelInfo[i].xpRequired) {
-        return levelInfo[i].level;
-      }
-    }
-    return 1;
+    return getLevelForXP(totalXP);
   };
 
   const earnXP = (amount: number, reason: string) => {
-    setUserStats(prev => {
-      const newTotalXP = prev.totalXP + amount;
-      const newLevel = calculateLevel(newTotalXP);
-      const currentLevelXP = newTotalXP - getXPForLevel(newLevel);
-      const nextLevelXP = getXPForLevel(newLevel + 1);
-      const xpToNextLevel = nextLevelXP - newTotalXP;
-
-      // Show XP notification
-      showXPNotification(amount, reason);
-
-      return {
-        ...prev,
-        totalXP: newTotalXP,
-        level: newLevel,
-        currentLevelXP,
-        xpToNextLevel: Math.max(0, xpToNextLevel),
-        rank: getLevelInfo(newLevel).title
-      };
-    });
+    // Persist to backend if logged in, then sync local state
+    if (user?.uid) {
+      void updateXP(user.uid, amount)
+        .then(({ newXP, newLevel }) => {
+          const prog = getProgressForXP(newXP);
+          setUserStats(prev => ({
+            ...prev,
+            totalXP: newXP,
+            level: newLevel,
+            currentLevelXP: prog.currentLevelXP,
+            xpToNextLevel: prog.xpToNextLevel,
+            rank: getLevelInfo(newLevel).title
+          }));
+          showXPNotification(amount, reason);
+        })
+        .catch(() => {
+          // Fallback local update
+          setUserStats(prev => {
+            const newTotalXP = Math.max(0, prev.totalXP + amount);
+            const prog = getProgressForXP(newTotalXP);
+            showXPNotification(amount, reason);
+            return {
+              ...prev,
+              totalXP: newTotalXP,
+              level: prog.level,
+              currentLevelXP: prog.currentLevelXP,
+              xpToNextLevel: prog.xpToNextLevel,
+              rank: getLevelInfo(prog.level).title
+            };
+          });
+        });
+    } else {
+      // Local-only update
+      setUserStats(prev => {
+        const newTotalXP = Math.max(0, prev.totalXP + amount);
+        const prog = getProgressForXP(newTotalXP);
+        showXPNotification(amount, reason);
+        return {
+          ...prev,
+          totalXP: newTotalXP,
+          level: prog.level,
+          currentLevelXP: prog.currentLevelXP,
+          xpToNextLevel: prog.xpToNextLevel,
+          rank: getLevelInfo(prog.level).title
+        };
+      });
+    }
   };
 
   const unlockAchievement = (achievementId: string) => {

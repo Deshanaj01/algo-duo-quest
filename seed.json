@@ -1,0 +1,56 @@
+{
+  "users": {
+    "sample_user_id": {
+      "xp": 0,
+      "level": 1,
+      "topic_performance": {
+        "arrays": { "correct": 0, "total": 0, "accuracy": 0 },
+        "strings": { "correct": 0, "total": 0, "accuracy": 0 },
+        "linked_lists": { "correct": 0, "total": 0, "accuracy": 0 },
+        "trees": { "correct": 0, "total": 0, "accuracy": 0 },
+        "graphs": { "correct": 0, "total": 0, "accuracy": 0 },
+        "dynamic_programming": { "correct": 0, "total": 0, "accuracy": 0 },
+        "sorting": { "correct": 0, "total": 0, "accuracy": 0 },
+        "searching": { "correct": 0, "total": 0, "accuracy": 0 }
+      },
+      "weak_areas": [],
+      "ai_recommendations": {
+        "suggested_topics": [],
+        "next_difficulty": "easy",
+        "focus_areas": []
+      },
+      "created_at": { "__timestamp": true },
+      "updated_at": { "__timestamp": true }
+    }
+  },
+  "questions": {
+    "sample_question_id": {
+      "title": "Sample Algorithm Problem",
+      "description": "This is a sample problem description.",
+      "topic": "arrays",
+      "difficulty": "easy",
+      "tags": ["array", "two-pointers"],
+      "hints": [
+        "Consider using two pointers approach",
+        "Think about the time complexity"
+      ],
+      "solution_approach": "Brief explanation of the solution approach",
+      "time_complexity": "O(n)",
+      "space_complexity": "O(1)",
+      "created_at": { "__timestamp": true },
+      "updated_at": { "__timestamp": true }
+    }
+  },
+  "ml_insights": {
+    "sample_insight_id": {
+      "user_id": "sample_user_id",
+      "predicted_weak_topics": ["dynamic_programming", "graphs"],
+      "suggested_difficulty": "medium",
+      "confidence_score": 0.85,
+      "reasoning": "Based on performance patterns and learning progression",
+      "generated_at": { "__timestamp": true },
+      "model_version": "v1.0",
+      "insight_type": "weakness_prediction"
+    }
+  }
+}

@@ -1,6 +1,5 @@
 
 import React from "react";
-import { cn } from "@/lib/utils";
 
 interface ProgressBarProps {
   value: number;
@@ -26,7 +25,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
   };
   
   return (
-    <div className={cn("w-full flex flex-col space-y-1", className)}>
+    <div className={`w-full flex flex-col space-y-1 ${className || ''}`}>
       {showLabel && (
         <div className="flex justify-between text-xs text-gray-500">
           <span>Progress</span>
@@ -35,9 +34,9 @@ const ProgressBar: React.FC<ProgressBarProps> = ({
           </span>
         </div>
       )}
-      <div className={cn("w-full bg-gray-200 rounded-full overflow-hidden", heightClass[size])}>
+      <div className={`w-full bg-gray-200 rounded-full overflow-hidden ${heightClass[size]}`}>
         <div 
-          className={cn("progress-bar-fill rounded-full bg-gradient-to-r from-algo-purple-500 to-algo-blue-500", heightClass[size])}
+          className={`progress-bar-fill rounded-full bg-gradient-to-r from-algo-purple-500 to-algo-blue-500 ${heightClass[size]}`}
           style={{ width: `${percentage}%` }}
         />
       </div>

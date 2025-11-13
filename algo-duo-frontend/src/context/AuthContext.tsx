@@ -68,7 +68,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   // Update Google Sign-In to use saveUserToFirestore
   const signInWithGoogle = async (): Promise<void> => {
     try {
-      setLoading(true);
       const result = await signInWithPopup(auth, googleProvider);
       if (!result.user) {
         throw new Error('No user data available');
@@ -77,28 +76,22 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     } catch (error: any) {
       console.error('Google sign-in error:', error);
       throw error;
-    } finally {
-      setLoading(false);
     }
   };
 
   // Email Sign-In
   const signInWithEmail = async (email: string, password: string): Promise<void> => {
     try {
-      setLoading(true);
       await signInWithEmailAndPassword(auth, email, password);
     } catch (error) {
       console.error('Error during email sign-in:', error);
       throw error;
-    } finally {
-      setLoading(false);
     }
   };
 
   // Update Email Sign-Up to use saveUserToFirestore
   const signUpWithEmail = async (email: string, password: string): Promise<void> => {
     try {
-      setLoading(true);
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       if (!userCredential.user) {
         throw new Error('No user data available');
@@ -107,8 +100,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     } catch (error: any) {
       console.error('Error during email sign-up:', error);
       throw error;
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -123,16 +114,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
-  // Update auth state listener to save user data on login
+  // Update auth state listener
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        try {
-          await saveUserToFirestore(user);
-        } catch (error) {
-          console.error('Error updating user data:', error);
-        }
-      }
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
       setLoading(false);
     });

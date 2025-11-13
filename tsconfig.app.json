@@ -26,5 +26,5 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src"]
+  "include": ["src", "algo-duo-frontend/src/firebase.ts", "algo-duo-frontend/src/components/ProtectedRoute.tsx"]
 }

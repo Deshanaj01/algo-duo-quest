@@ -68,6 +68,11 @@ export const CourseProgressProvider: React.FC<{ children: React.ReactNode }> = (
   }, [lessons]);
 
   const updateLessonProgress = (lessonId: string, completed: boolean, score: number = 100) => {
+    // Check previous completion state to prevent XP farming on replays
+    const existing = lessons.find(l => l.id === lessonId);
+    const wasCompleted = !!existing?.completed;
+
+    // Update local lesson state
     setLessons(prevLessons => 
       prevLessons.map(lesson => 
         lesson.id === lessonId 
@@ -76,13 +81,12 @@ export const CourseProgressProvider: React.FC<{ children: React.ReactNode }> = (
       )
     );
 
-    // Award XP and update game context
-    const lesson = lessons.find(l => l.id === lessonId);
-    if (lesson && completed) {
-      earnXP(lesson.xpReward, `Completed: ${lesson.title}`);
-      
+    // Only award XP, update stats, and unlock next lessons on FIRST completion (false -> true)
+    if (existing && completed && !wasCompleted) {
+      earnXP(existing.xpReward, `Completed: ${existing.title}`);
+
       // Update different counters based on lesson type
-      switch (lesson.type) {
+      switch (existing.type) {
         case 'concept':
           completeLesson(lessonId, score);
           break;

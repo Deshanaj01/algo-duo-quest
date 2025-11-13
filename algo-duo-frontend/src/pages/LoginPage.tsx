@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.tsx';
+import { auth } from '../firebase.ts'; // Adjust the path to your Firebase configuration file
 
 const LoginPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
@@ -41,10 +42,38 @@ const LoginPage: React.FC = () => {
     try {
       setLoading(true);
       setError(null);
-      await signInWithGoogle();
+      
+      // First clear any existing auth state
+      await auth.signOut();
+      
+      // Set a flag to track popup state
+      const popupPromise = signInWithGoogle();
+      const timeoutPromise = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('Sign-in timeout')), 60000)
+      );
+      
+      // Race between popup and timeout
+      await Promise.race([popupPromise, timeoutPromise]);
+      
     } catch (error: any) {
       console.error('Sign-in error:', error);
-      setError(error.message || 'Failed to sign in with Google');
+      
+      switch (error.code) {
+        case 'auth/popup-closed-by-user':
+          setError('Please keep the sign-in window open to complete authentication.');
+          break;
+        case 'auth/popup-blocked':
+          setError('Please allow pop-ups for this site and try again.');
+          break;
+        case 'auth/cancelled-popup-request':
+          setError('Previous sign-in attempt in progress. Please wait.');
+          break;
+        case 'auth/network-request-failed':
+          setError('Network error. Please check your internet connection.');
+          break;
+        default:
+          setError(error.message || 'Failed to sign in with Google. Please try again.');
+      }
     } finally {
       setLoading(false);
     }

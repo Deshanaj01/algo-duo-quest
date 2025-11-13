@@ -8,11 +8,18 @@ import {
   BookOpen, 
   Code, 
   Flame,
-  ArrowRight
+  ArrowRight,
+  Database,
+  Settings
 } from 'lucide-react';
 import CourseLessonCard from '../components/CourseLessonCard.tsx';
+import SubtopicSection from '../components/SubtopicSection.tsx';
+import RestructuredTopicSection from '../components/RestructuredTopicSection.tsx';
+import FirebaseProblemSection from '../components/FirebaseProblemSection.tsx';
 import { useCourseProgress } from '../context/CourseProgressContext.tsx';
 import { useGame } from '../context/GameContext.tsx';
+import arraysCompleteCurriculum from '../data/comprehensive-arrays-curriculum.ts';
+import { unifiedArraysCurriculum } from '../data/unified-arrays-master.ts';
 import {
   BookSticker,
   TrophySticker,
@@ -182,7 +189,8 @@ const ArrayCoursePage = () => {
             {Object.entries(levelData).map(([level, data]) => {
               const levelNum = parseInt(level) as 1 | 2 | 3;
               const isActive = activeLevel === levelNum;
-              const isUnlocked = levelNum === 1 || getProgressByLevel((levelNum - 1) as 1 | 2 | 3) >= 80;
+              // Levels 1 and 2 are unlocked by default, level 3 requires 80% progress on level 2
+              const isUnlocked = levelNum === 1 || levelNum === 2 || getProgressByLevel(2) >= 80;
               
               return (
                 <motion.button
@@ -323,6 +331,46 @@ const ArrayCoursePage = () => {
                   </div>
                 </div>
               )}
+
+              {/* Firebase Problems Section */}
+              <div className="mt-12">
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                  className="bg-gradient-to-r from-purple-900/30 via-blue-900/30 to-indigo-900/30 rounded-xl p-6 border border-purple-500/30 mb-6"
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-3">
+                      <div className="p-3 bg-purple-500/20 rounded-lg">
+                        <BookOpen className="w-6 h-6 text-purple-400" />
+                      </div>
+                      <div>
+                        <h3 className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
+                          {currentLevel.title} - All Problems
+                        </h3>
+                        <p className="text-gray-300 text-sm mt-1">
+                          Complete problems loaded from Firebase with XP rewards
+                        </p>
+                      </div>
+                    </div>
+                    <div className="text-right hidden md:block">
+                      <div className="text-sm text-gray-400 mb-1">Learn → Understand → Code</div>
+                      <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 rounded-full bg-blue-500"></div>
+                        <div className="w-3 h-3 rounded-full bg-purple-500"></div>
+                        <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+                
+                {/* Firebase Problems */}
+                <FirebaseProblemSection
+                  levelDifficulty={currentLevel.title as 'Beginner' | 'Intermediate' | 'Advanced'}
+                  completedProblems={new Set()} // TODO: Track completed problems from Firebase
+                />
+              </div>
             </div>
           </motion.div>
         </AnimatePresence>
@@ -330,7 +378,7 @@ const ArrayCoursePage = () => {
 
       {/* Continue Learning CTA */}
       {nextLesson && (
-        <div className="max-w-7xl mx-auto px-6 pb-12">
+        <div className="max-w-7xl mx-auto px-6 pb-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -372,6 +420,40 @@ const ArrayCoursePage = () => {
           </motion.div>
         </div>
       )}
+
+      {/* Firebase Data Management CTA */}
+      <div className="max-w-7xl mx-auto px-6 pb-12">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="bg-gradient-to-r from-gray-800/50 to-gray-900/50 rounded-xl p-6 border border-gray-700/50"
+        >
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <div className="p-3 bg-blue-500/20 rounded-lg">
+                <Database className="w-6 h-6 text-blue-400" />
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-white mb-1 flex items-center gap-2">
+                  Firebase Data Management
+                  <Settings className="w-4 h-4 text-gray-400" />
+                </h3>
+                <p className="text-gray-400 text-sm">Populate or migrate your problem database</p>
+              </div>
+            </div>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => navigate('/migrate-problems')}
+              className="bg-gradient-to-r from-gray-700 to-gray-800 hover:from-gray-600 hover:to-gray-700 px-6 py-3 rounded-lg font-semibold transition-colors flex items-center space-x-2 border border-gray-600/50"
+            >
+              <Database className="w-4 h-4" />
+              <span>Manage Data</span>
+            </motion.button>
+          </div>
+        </motion.div>
+      </div>
     </div>
   );
 };
