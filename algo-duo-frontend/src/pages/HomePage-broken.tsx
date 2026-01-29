@@ -157,34 +157,37 @@ const HomePage = () => {
           gap: '20px',
           marginBottom: '40px'
         }}>
-          <div style={{ 
-            backgroundColor: '#2d3436', 
-            padding: '25px', 
-            borderRadius: '12px',
-            border: '2px solid #6c5ce7',
-            cursor: 'pointer',
-            transition: 'transform 0.3s ease'
-          }}
-          onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-5px)'}
-          onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}
-          >
-            <h3 style={{ color: '#6c5ce7', marginBottom: '15px' }}>📚 Interactive Lessons</h3>
-            <p style={{ color: '#ddd' }}>
-              Learn step-by-step with hands-on examples and visual explanations.
-            </p>
-            <div style={{ marginTop: '15px' }}>
-              <span style={{ 
-                backgroundColor: '#6c5ce7', 
-                color: 'white', 
-                padding: '5px 15px', 
-                borderRadius: '15px', 
-                fontSize: '0.8rem',
-                fontWeight: 'bold'
-              }}>
-                {lessonsCompleted} completed
-              </span>
+          <Link to="/leaderboard" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <div style={{ 
+              backgroundColor: '#2d3436', 
+              padding: '25px', 
+              borderRadius: '12px',
+              border: '2px solid #6c5ce7',
+              cursor: 'pointer',
+              transition: 'transform 0.3s ease',
+              height: '100%'
+            }}
+            onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-5px)'}
+            onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+            >
+              <h3 style={{ color: '#6c5ce7', marginBottom: '15px' }}>🏆 Leaderboard</h3>
+              <p style={{ color: '#ddd' }}>
+                See top learners by XP, Level, and Streak. Climb the ranks!
+              </p>
+              <div style={{ marginTop: '15px' }}>
+                <span style={{ 
+                  backgroundColor: '#6c5ce7', 
+                  color: 'white', 
+                  padding: '5px 15px', 
+                  borderRadius: '15px', 
+                  fontSize: '0.8rem',
+                  fontWeight: 'bold'
+                }}>
+                  View Rankings
+                </span>
+              </div>
             </div>
-          </div>
+          </Link>
 
 
           <Link to="/playground" style={{ textDecoration: 'none', color: 'inherit' }}>

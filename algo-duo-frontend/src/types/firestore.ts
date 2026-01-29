@@ -6,6 +6,11 @@ export interface UserProfile {
   photoURL?: string | null;
   xp: number;
   level: number;
+  streak?: {
+    current: number;
+    longest: number;
+    lastLoginDate: string;
+  };
   topic_performance: {
     [topic: string]: {
       correct: number;
@@ -19,8 +24,13 @@ export interface UserProfile {
     next_difficulty: string;
     focus_areas: string[];
   };
+  progress?: {
+    completedLessons: string[];
+    currentLesson: string | null;
+  };
   created_at: Date;
   updated_at: Date;
+  lastLogin?: Date;
 }
 
 export interface Question {

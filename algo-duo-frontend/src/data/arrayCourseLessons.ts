@@ -70,45 +70,194 @@ export interface CourseLesson {
   revisionConfig?: RevisionTestConfig;
 }
 
-// Beginner Level (Level 1) - Array Fundamentals
+// 🟢 BEGINNER LEVEL (Level 1) - Array Fundamentals
+// Story: Welcome to Array Island! Master the basics and become an Array Explorer
+// Badge Reward: 🥉 Array Explorer
 export const beginnerLessons: CourseLesson[] = [
+  // ═══════════════════════════════════════════════════════════════════
+  // MODULE 1: Introduction to Arrays
+  // ═══════════════════════════════════════════════════════════════════
   {
     id: 'arrays-introduction',
-    title: 'What Are Arrays?',
-    description: 'Learn the fundamentals of arrays with interactive visualizations',
+    title: '🎯 What Are Arrays?',
+    description: '📚 Begin your journey! Discover what arrays are and why they\'re the most fundamental data structure',
     type: 'concept',
     difficulty: 'beginner',
-    duration: 15,
+    duration: 12,
     xpReward: 100,
     completed: false,
     unlocked: true,
     level: 1,
     conceptConfig: {
       id: 'arrays-introduction',
-      title: 'Introduction to Arrays',
-      description: 'Learn the fundamentals of arrays with interactive visualizations',
+      title: 'Introduction to Arrays - Your First Data Structure',
+      description: 'Learn what arrays are through real-world analogies and visual examples',
       steps: [
         {
           id: 'step1',
-          title: 'What is an Array?',
+          title: '🏠 What is an Array? (The Story Begins)',
           content: `
-            <p>An array is like a row of boxes, each containing a value. Every box has a number (called an index) that helps us find what's inside.</p>
-            <p>Think of it like:</p>
+            <h3>Welcome to Array Island! 🏝️</h3>
+            <p>Imagine you're organizing a treasure hunt, and you need to keep track of all the treasures in order. An array is like a <strong>row of numbered boxes</strong>, each holding a treasure (value)!</p>
+            
+            <h4>Real-World Analogies:</h4>
             <ul>
-              <li>A street with numbered houses</li>
-              <li>A bookshelf with numbered slots</li>
-              <li>A line of performers, each with a position</li>
+              <li>🏘️ <strong>A street with numbered houses</strong> - Each house has an address (index) and people living inside (values)</li>
+              <li>📚 <strong>A bookshelf with slots</strong> - Each slot is numbered, making it easy to find your favorite book</li>
+              <li>🎬 <strong>A movie theater row</strong> - Seats numbered 0, 1, 2, 3... (yes, starting from 0!)</li>
+              <li>🚂 <strong>Train cars</strong> - Lined up in order, each with a number</li>
             </ul>
-            <p>Arrays are <strong>zero-indexed</strong>, meaning the first position is labeled 0, not 1!</p>
+            
+            <h4>🔑 Key Insight:</h4>
+            <p>Arrays are <strong>zero-indexed</strong>, meaning the first position is labeled <code>0</code>, not 1! This might seem weird at first, but it's used in most programming languages.</p>
+            
+            <div class="callout info">
+              <strong>Think of it this way:</strong> If you're counting floors in a building, some countries start with "Ground Floor (0)" before "First Floor (1)". Arrays work the same way!
+            </div>
           `
         },
         {
           id: 'step2',
-          title: 'Accessing Array Elements',
+          title: '📦 How Arrays Store Data',
           content: `
-            <p>To get a value from an array, we use its index inside square brackets: <code>array[index]</code></p>
-            <p>Watch as we access different elements in the array below. Notice how the yellow highlight shows which element we're accessing!</p>
-            <p><strong>Key Point:</strong> Array access is super fast - it takes the same amount of time regardless of the array size! This is called O(1) time complexity.</p>
+            <h3>Memory Magic ✨</h3>
+            <p>Arrays store elements in <strong>contiguous memory locations</strong>. Think of it like parking cars in numbered parking spots - all in a row, side by side.</p>
+            
+            <h4>Why This Matters:</h4>
+            <ul>
+              <li>⚡ <strong>Super Fast Access</strong> - You can jump to any element instantly using its index</li>
+              <li>💾 <strong>Efficient Storage</strong> - No wasted space between elements</li>
+              <li>📍 <strong>Predictable Structure</strong> - You always know where everything is</li>
+            </ul>
+            
+            <h4>Visual Example:</h4>
+            <pre><code>Array: ["Apple", "Banana", "Cherry", "Date"]
+Index:    0        1         2         3
+</code></pre>
+            
+            <p>See how each fruit has its own spot? That's an array!</p>
+          `
+        },
+        {
+          id: 'step3',
+          title: '🎓 Array Declaration & Creation',
+          content: `
+            <h3>Creating Your First Array</h3>
+            <p>In JavaScript, there are multiple ways to create arrays. Let's explore them:</p>
+            
+            <h4>Method 1: Array Literal (Most Common) ✅</h4>
+            <pre><code>const fruits = ["Apple", "Banana", "Cherry"];
+const numbers = [10, 20, 30, 40, 50];
+const mixed = [1, "Hello", true, 3.14];
+const empty = [];
+</code></pre>
+            
+            <h4>Method 2: Array Constructor</h4>
+            <pre><code>const arr1 = new Array(5);        // Creates array of length 5
+const arr2 = new Array(1, 2, 3);  // Creates [1, 2, 3]
+</code></pre>
+            
+            <h4>Method 3: Array.of() and Array.from()</h4>
+            <pre><code>const arr3 = Array.of(7);          // [7]
+const arr4 = Array.from("Hello");  // ["H", "e", "l", "l", "o"]
+</code></pre>
+            
+            <div class="callout tip">
+              <strong>Pro Tip:</strong> Use array literals <code>[]</code> for clarity and simplicity. It's the most readable and common approach!
+            </div>
+          `,
+          quiz: {
+            question: '📝 Which method is the recommended way to create an array in JavaScript?',
+            options: [
+              'new Array(1, 2, 3)',
+              'const arr = [1, 2, 3]',
+              'Array.constructor(1, 2, 3)',
+              'createArray(1, 2, 3)'
+            ],
+            correctAnswer: 1,
+            explanation: 'Array literals using square brackets [] are the most common, readable, and recommended way to create arrays in JavaScript.'
+          }
+        }
+      ],
+      xpReward: 100
+    }
+  },
+
+  // ═══════════════════════════════════════════════════════════════════
+  // MODULE 2: Accessing Array Elements
+  // ═══════════════════════════════════════════════════════════════════
+  {
+    id: 'array-access',
+    title: '🔍 Accessing & Reading Elements',
+    description: '🎯 Master array indexing and learn the secret of O(1) access time',
+    type: 'concept',
+    difficulty: 'beginner',
+    duration: 10,
+    xpReward: 80,
+    completed: false,
+    unlocked: true,
+    level: 1,
+    conceptConfig: {
+      id: 'array-access',
+      title: 'Array Access - The Power of Indexing',
+      description: 'Learn how to read and access elements using zero-based indexing',
+      steps: [
+        {
+          id: 'step1',
+          title: '📍 Reading Array Elements',
+          content: `
+            <h3>Accessing Elements by Index 🎯</h3>
+            <p>To retrieve a value from an array, use this simple syntax:</p>
+            
+            <pre><code>const scores = [95, 87, 92, 78, 100];
+
+console.log(scores[0]);  // 95  (first element)
+console.log(scores[2]);  // 92  (third element)
+console.log(scores[4]);  // 100 (last element)
+</code></pre>
+            
+            <h4>🔑 The Golden Rule: Index = Position - 1</h4>
+            <ul>
+              <li>First element → Index 0</li>
+              <li>Second element → Index 1</li>
+              <li>Third element → Index 2</li>
+              <li>Last element → Index (length - 1)</li>
+            </ul>
+            
+            <h4>⚡ Why is Array Access So Fast?</h4>
+            <p>Array access is <strong>O(1)</strong> - constant time! The computer calculates the exact memory address using: <code>base_address + (index × element_size)</code></p>
+            
+            <p>It's like knowing someone's house is exactly 5 doors down - you don't need to knock on doors 1, 2, 3, 4 first!</p>
+          `
+        },
+        {
+          id: 'step2',
+          title: '🔧 Accessing First & Last Elements',
+          content: `
+            <h3>Common Access Patterns</h3>
+            
+            <h4>Getting the First Element</h4>
+            <pre><code>const arr = [10, 20, 30, 40, 50];
+const first = arr[0];  // 10
+</code></pre>
+            
+            <h4>Getting the Last Element</h4>
+            <pre><code>const arr = [10, 20, 30, 40, 50];
+const last = arr[arr.length - 1];  // 50
+
+// Modern JavaScript (ES2022+):
+const last = arr.at(-1);  // 50 (negative index!)
+</code></pre>
+            
+            <h4>What About Invalid Indices?</h4>
+            <pre><code>const arr = [10, 20, 30];
+console.log(arr[5]);   // undefined (no error!)
+console.log(arr[-1]);  // undefined (except with .at())
+</code></pre>
+            
+            <div class="callout warning">
+              <strong>Watch Out!</strong> JavaScript doesn't throw errors for out-of-bounds access - it returns <code>undefined</code>. Always check array length!
+            </div>
           `,
           quiz: {
             question: 'What is the value at index 2 in the array [10, 20, 30, 40, 50]?',
@@ -118,41 +267,58 @@ export const beginnerLessons: CourseLesson[] = [
           }
         }
       ],
-      xpReward: 100
+      xpReward: 80
     }
   },
+
+  // ═══════════════════════════════════════════════════════════════════
+  // MODULE 3: Modifying Arrays
+  // ═══════════════════════════════════════════════════════════════════
   {
-    id: 'array-access',
-    title: 'Accessing Elements',
-    description: 'Master array indexing and element access patterns',
+    id: 'array-modification',
+    title: '✏️ Updating Array Elements',
+    description: '🔄 Learn how to modify, update, and change array values',
     type: 'concept',
     difficulty: 'beginner',
-    duration: 12,
+    duration: 10,
     xpReward: 80,
     completed: false,
     unlocked: true,
     level: 1,
     conceptConfig: {
-      id: 'array-access',
-      title: 'Accessing Array Elements',
-      description: 'Learn how to access and modify array elements',
+      id: 'array-modification',
+      title: 'Modifying Arrays - Change and Update',
+      description: 'Learn how to change array elements and understand mutation',
       steps: [
         {
           id: 'step1',
-          title: 'Reading Array Elements',
+          title: '✏️ Updating Elements',
           content: `
-            <p>Accessing array elements is one of the most fundamental operations in programming!</p>
-            <p>Remember: arrays use <strong>zero-based indexing</strong>, so the first element is at index 0.</p>
-            <p>The syntax is simple: <code>arrayName[index]</code></p>
-          `
-        },
-        {
-          id: 'step2', 
-          title: 'Modifying Array Elements',
-          content: `
-            <p>You can also change array elements by assigning new values:</p>
-            <p><code>arrayName[index] = newValue</code></p>
-            <p>This is called <strong>mutation</strong> - you're changing the original array.</p>
+            <h3>Changing Array Values</h3>
+            <p>Arrays are <strong>mutable</strong> - you can change their contents after creation!</p>
+            
+            <pre><code>let scores = [75, 85, 90];
+
+// Update second element
+scores[1] = 95;
+
+console.log(scores);  // [75, 95, 90]
+</code></pre>
+            
+            <h4>Multiple Updates</h4>
+            <pre><code>let items = ["a", "b", "c", "d"];
+
+items[0] = "A";  // Change first
+items[3] = "D";  // Change last
+
+console.log(items);  // ["A", "b", "c", "D"]
+</code></pre>
+            
+            <div class="callout info">
+              <strong>Mutation vs Reassignment:</strong><br>
+              • Mutation: Changing array contents (elements)<br>
+              • Reassignment: Changing what variable points to<br>
+            </div>
           `,
           quiz: {
             question: 'After executing "arr[1] = 99" on array [10, 20, 30], what is arr[1]?',
@@ -160,72 +326,993 @@ export const beginnerLessons: CourseLesson[] = [
             correctAnswer: 1,
             explanation: 'The assignment arr[1] = 99 changes the element at index 1 from 20 to 99.'
           }
+        },
+        {
+          id: 'step2',
+          title: '🔒 const vs let with Arrays',
+          content: `
+            <h3>Understanding const with Arrays</h3>
+            
+            <pre><code>const arr = [1, 2, 3];
+
+// ✅ This works - modifying contents
+arr[0] = 99;
+arr.push(4);
+console.log(arr);  // [99, 2, 3, 4]
+
+// ❌ This fails - reassigning variable
+arr = [5, 6, 7];  // Error!
+</code></pre>
+            
+            <h4>Why?</h4>
+            <p><code>const</code> prevents <strong>reassignment</strong> of the variable, but the array contents can still change!</p>
+            
+            <div class="callout tip">
+              <strong>Best Practice:</strong> Use <code>const</code> for arrays unless you need to reassign the entire array.
+            </div>
+          `
         }
       ],
       xpReward: 80
     }
   },
+
+  // ═══════════════════════════════════════════════════════════════════
+  // MODULE 4: Array Properties & Length
+  // ═══════════════════════════════════════════════════════════════════
+  {
+    id: 'array-length-properties',
+    title: '📏 Array Length & Properties',
+    description: '📊 Understand array.length and how to work with array size',
+    type: 'concept',
+    difficulty: 'beginner',
+    duration: 8,
+    xpReward: 70,
+    completed: false,
+    unlocked: true,
+    level: 1,
+    conceptConfig: {
+      id: 'array-length-properties',
+      title: 'Array Length - Counting Elements',
+      description: 'Master the length property and array size manipulation',
+      steps: [
+        {
+          id: 'step1',
+          title: '📏 The length Property',
+          content: `
+            <h3>Understanding array.length</h3>
+            
+            <pre><code>const fruits = ["Apple", "Banana", "Cherry"];
+console.log(fruits.length);  // 3
+
+const numbers = [10, 20, 30, 40, 50];
+console.log(numbers.length);  // 5
+
+const empty = [];
+console.log(empty.length);  // 0
+</code></pre>
+            
+            <h4>🔑 Key Points:</h4>
+            <ul>
+              <li>Length = number of elements</li>
+              <li>Last index = length - 1</li>
+              <li>Length is automatically updated</li>
+            </ul>
+            
+            <h4>Dynamic Length</h4>
+            <pre><code>const arr = [1, 2, 3];
+console.log(arr.length);  // 3
+
+arr.push(4);
+console.log(arr.length);  // 4
+
+arr.pop();
+console.log(arr.length);  // 3
+</code></pre>
+          `,
+          quiz: {
+            question: 'If an array has length 10, what is the index of the last element?',
+            options: ['10', '9', '11', '8'],
+            correctAnswer: 1,
+            explanation: 'Since arrays are zero-indexed, the last index is always length - 1. So 10 - 1 = 9.'
+          }
+        },
+        {
+          id: 'step2',
+          title: '🎯 Practical Use Cases',
+          content: `
+            <h3>Using Length in Real Code</h3>
+            
+            <h4>Checking if Empty</h4>
+            <pre><code>if (arr.length === 0) {
+  console.log("Array is empty!");
+}
+</code></pre>
+            
+            <h4>Accessing Last Element</h4>
+            <pre><code>const last = arr[arr.length - 1];
+</code></pre>
+            
+            <h4>Looping Through Array</h4>
+            <pre><code>for (let i = 0; i < arr.length; i++) {
+  console.log(arr[i]);
+}
+</code></pre>
+            
+            <h4>⚠️ You Can Modify Length!</h4>
+            <pre><code>const arr = [1, 2, 3, 4, 5];
+arr.length = 3;  // Truncates array
+console.log(arr);  // [1, 2, 3]
+
+arr.length = 5;  // Expands with undefined
+console.log(arr);  // [1, 2, 3, undefined, undefined]
+</code></pre>
+          `
+        }
+      ],
+      xpReward: 70
+    }
+  },
+
+  // ═══════════════════════════════════════════════════════════════════
+  // MODULE 5: Traversing Arrays (Iteration)
+  // ═══════════════════════════════════════════════════════════════════
+  {
+    id: 'array-traversal',
+    title: '🔄 Looping Through Arrays',
+    description: '🚀 Learn different ways to iterate and traverse arrays',
+    type: 'concept',
+    difficulty: 'beginner',
+    duration: 15,
+    xpReward: 90,
+    completed: false,
+    unlocked: false,
+    prerequisite: ['array-length-properties'],
+    level: 1,
+    conceptConfig: {
+      id: 'array-traversal',
+      title: 'Array Traversal - Visiting Every Element',
+      description: 'Master different iteration techniques for arrays',
+      steps: [
+        {
+          id: 'step1',
+          title: '🔄 For Loop - Classic Approach',
+          content: `
+            <h3>The Traditional For Loop</h3>
+            <p>The most common way to traverse an array:</p>
+            
+            <pre><code>const numbers = [10, 20, 30, 40, 50];
+
+// Print each element
+for (let i = 0; i < numbers.length; i++) {
+  console.log(numbers[i]);
+}
+
+// Calculate sum
+let sum = 0;
+for (let i = 0; i < numbers.length; i++) {
+  sum += numbers[i];
+}
+console.log(sum);  // 150
+</code></pre>
+            
+            <h4>🎯 When to Use:</h4>
+            <ul>
+              <li>✅ Need index position</li>
+              <li>✅ Want to skip elements</li>
+              <li>✅ Reverse iteration</li>
+              <li>✅ Breaking out early</li>
+            </ul>
+          `
+        },
+        {
+          id: 'step2',
+          title: '✨ Modern Iteration Methods',
+          content: `
+            <h3>forEach - Functional Approach</h3>
+            <pre><code>const fruits = ["Apple", "Banana", "Cherry"];
+
+fruits.forEach((fruit, index) => {
+  console.log(\`\${index}: \${fruit}\`);
+});
+// 0: Apple
+// 1: Banana
+// 2: Cherry
+</code></pre>
+            
+            <h3>for...of - Clean and Simple</h3>
+            <pre><code>const numbers = [1, 2, 3, 4, 5];
+
+for (const num of numbers) {
+  console.log(num);
+}
+</code></pre>
+            
+            <h3>map - Transform Elements</h3>
+            <pre><code>const numbers = [1, 2, 3, 4, 5];
+const doubled = numbers.map(n => n * 2);
+console.log(doubled);  // [2, 4, 6, 8, 10]
+</code></pre>
+            
+            <h3>while Loop</h3>
+            <pre><code>const arr = [10, 20, 30];
+let i = 0;
+
+while (i < arr.length) {
+  console.log(arr[i]);
+  i++;
+}
+</code></pre>
+          `,
+          quiz: {
+            question: 'Which loop method gives you both the element AND its index easily?',
+            options: ['for...of', 'while', 'forEach', 'map'],
+            correctAnswer: 2,
+            explanation: 'forEach provides both value and index as parameters: arr.forEach((value, index) => {...})'
+          }
+        }
+      ],
+      xpReward: 90
+    }
+  },
+
+  // ═══════════════════════════════════════════════════════════════════
+  // MODULE 6: Insertion Operations
+  // ═══════════════════════════════════════════════════════════════════
+  {
+    id: 'array-insertion',
+    title: '➕ Adding Elements to Arrays',
+    description: '📝 Learn push, unshift, and splice for inserting elements',
+    type: 'concept',
+    difficulty: 'beginner',
+    duration: 12,
+    xpReward: 85,
+    completed: false,
+    unlocked: false,
+    prerequisite: ['array-traversal'],
+    level: 1,
+    conceptConfig: {
+      id: 'array-insertion',
+      title: 'Insertion - Adding Elements',
+      description: 'Learn all the ways to add elements to arrays',
+      steps: [
+        {
+          id: 'step1',
+          title: '📤 push() - Add to End',
+          content: `
+            <h3>Adding Elements at the End</h3>
+            <p>The <code>push()</code> method adds one or more elements to the end of an array.</p>
+            
+            <pre><code>const fruits = ["Apple", "Banana"];
+
+fruits.push("Cherry");
+console.log(fruits);  // ["Apple", "Banana", "Cherry"]
+
+fruits.push("Date", "Elderberry");
+console.log(fruits);  // ["Apple", "Banana", "Cherry", "Date", "Elderberry"]
+
+// Returns new length
+const newLength = fruits.push("Fig");
+console.log(newLength);  // 6
+</code></pre>
+            
+            <h4>⚡ Time Complexity: O(1)</h4>
+            <p>Adding to the end is super fast - constant time!</p>
+            
+            <div class="callout tip">
+              <strong>Use Case:</strong> Building a list, stacking items, appending data
+            </div>
+          `
+        },
+        {
+          id: 'step2',
+          title: '📥 unshift() - Add to Beginning',
+          content: `
+            <h3>Adding Elements at the Start</h3>
+            <p>The <code>unshift()</code> method adds elements to the beginning of an array.</p>
+            
+            <pre><code>const numbers = [3, 4, 5];
+
+numbers.unshift(2);
+console.log(numbers);  // [2, 3, 4, 5]
+
+numbers.unshift(0, 1);
+console.log(numbers);  // [0, 1, 2, 3, 4, 5]
+</code></pre>
+            
+            <h4>⚠️ Time Complexity: O(n)</h4>
+            <p>Adding to the beginning is slower because all existing elements must shift right!</p>
+            
+            <pre><code>// What happens internally:
+[3, 4, 5]  →  [_, 3, 4, 5]  →  [2, 3, 4, 5]
+               Shift all         Insert new
+</code></pre>
+          `
+        },
+        {
+          id: 'step3',
+          title: '✂️ splice() - Insert Anywhere',
+          content: `
+            <h3>Inserting at Any Position</h3>
+            <p>The <code>splice()</code> method can insert elements at any index.</p>
+            
+            <h4>Syntax:</h4>
+            <pre><code>array.splice(startIndex, deleteCount, item1, item2, ...)
+</code></pre>
+            
+            <h4>Insert Without Deleting:</h4>
+            <pre><code>const arr = [1, 2, 5, 6];
+
+// Insert 3 and 4 at index 2
+arr.splice(2, 0, 3, 4);
+console.log(arr);  // [1, 2, 3, 4, 5, 6]
+</code></pre>
+            
+            <h4>More Examples:</h4>
+            <pre><code>const colors = ["Red", "Blue"];
+
+// Insert at index 1
+colors.splice(1, 0, "Green");
+console.log(colors);  // ["Red", "Green", "Blue"]
+
+// Insert multiple at beginning
+colors.splice(0, 0, "Yellow", "Orange");
+console.log(colors);  // ["Yellow", "Orange", "Red", "Green", "Blue"]
+</code></pre>
+            
+            <h4>⏱️ Time Complexity: O(n)</h4>
+            <p>Elements after insertion point must shift right.</p>
+          `,
+          quiz: {
+            question: 'Which method is FASTEST for adding elements to an array?',
+            options: ['unshift()', 'splice()', 'push()', 'They are all the same'],
+            correctAnswer: 2,
+            explanation: 'push() is O(1) - fastest! It adds to the end without shifting other elements. unshift() and splice() are O(n) because they require shifting.'
+          }
+        }
+      ],
+      xpReward: 85
+    }
+  },
+
+  // ═══════════════════════════════════════════════════════════════════
+  // MODULE 7: Deletion Operations
+  // ═══════════════════════════════════════════════════════════════════
+  {
+    id: 'array-deletion',
+    title: '🗑️ Removing Elements from Arrays',
+    description: '❌ Master pop, shift, and splice for deleting elements',
+    type: 'concept',
+    difficulty: 'beginner',
+    duration: 12,
+    xpReward: 85,
+    completed: false,
+    unlocked: false,
+    prerequisite: ['array-insertion'],
+    level: 1,
+    conceptConfig: {
+      id: 'array-deletion',
+      title: 'Deletion - Removing Elements',
+      description: 'Learn all the ways to remove elements from arrays',
+      steps: [
+        {
+          id: 'step1',
+          title: '📤 pop() - Remove from End',
+          content: `
+            <h3>Removing the Last Element</h3>
+            <p>The <code>pop()</code> method removes the last element and returns it.</p>
+            
+            <pre><code>const fruits = ["Apple", "Banana", "Cherry"];
+
+const last = fruits.pop();
+console.log(last);    // "Cherry"
+console.log(fruits);  // ["Apple", "Banana"]
+
+fruits.pop();
+console.log(fruits);  // ["Apple"]
+
+fruits.pop();
+console.log(fruits);  // []
+
+fruits.pop();         // undefined (empty array)
+</code></pre>
+            
+            <h4>⚡ Time Complexity: O(1)</h4>
+            <p>Removing from the end is super fast!</p>
+            
+            <div class="callout tip">
+              <strong>Use Case:</strong> Stack operations, undo functionality, removing most recent item
+            </div>
+          `
+        },
+        {
+          id: 'step2',
+          title: '📥 shift() - Remove from Beginning',
+          content: `
+            <h3>Removing the First Element</h3>
+            <p>The <code>shift()</code> method removes the first element and returns it.</p>
+            
+            <pre><code>const numbers = [10, 20, 30, 40];
+
+const first = numbers.shift();
+console.log(first);     // 10
+console.log(numbers);   // [20, 30, 40]
+
+numbers.shift();
+console.log(numbers);   // [30, 40]
+</code></pre>
+            
+            <h4>⚠️ Time Complexity: O(n)</h4>
+            <p>All remaining elements must shift left:</p>
+            
+            <pre><code>// What happens internally:
+[10, 20, 30, 40]  →  [20, 30, 40, _]  →  [20, 30, 40]
+ Remove first         Shift all left      Resize
+</code></pre>
+            
+            <div class="callout warning">
+              <strong>Performance:</strong> Avoid shift() in loops with large arrays - it's slow!
+            </div>
+          `
+        },
+        {
+          id: 'step3',
+          title: '✂️ splice() - Remove from Anywhere',
+          content: `
+            <h3>Removing Elements at Any Position</h3>
+            
+            <h4>Remove Single Element:</h4>
+            <pre><code>const arr = [1, 2, 3, 4, 5];
+
+// Remove element at index 2
+arr.splice(2, 1);
+console.log(arr);  // [1, 2, 4, 5]
+</code></pre>
+            
+            <h4>Remove Multiple Elements:</h4>
+            <pre><code>const colors = ["Red", "Green", "Blue", "Yellow", "Orange"];
+
+// Remove 2 elements starting at index 1
+const removed = colors.splice(1, 2);
+console.log(removed);  // ["Green", "Blue"]
+console.log(colors);   // ["Red", "Yellow", "Orange"]
+</code></pre>
+            
+            <h4>Remove from End:</h4>
+            <pre><code>const nums = [1, 2, 3, 4, 5];
+
+// Remove last 2 elements
+nums.splice(-2, 2);
+console.log(nums);  // [1, 2, 3]
+</code></pre>
+            
+            <h4>Clear Entire Array:</h4>
+            <pre><code>arr.splice(0, arr.length);  // Removes all
+// or simply:
+arr.length = 0;
+</code></pre>
+          `,
+          quiz: {
+            question: 'After calling arr.pop() on [1,2,3], what does arr.pop() return?',
+            options: ['1', '2', '3', 'undefined'],
+            correctAnswer: 1,
+            explanation: 'First pop() removes 3, leaving [1,2]. Second pop() removes and returns 2.'
+          }
+        },
+        {
+          id: 'step4',
+          title: '🎯 delete Operator (Avoid!)',
+          content: `
+            <h3>Why NOT to Use the delete Operator</h3>
+            
+            <pre><code>const arr = [1, 2, 3, 4, 5];
+
+delete arr[2];
+console.log(arr);         // [1, 2, <empty>, 4, 5]
+console.log(arr.length);  // 5 (unchanged!)
+console.log(arr[2]);      // undefined
+</code></pre>
+            
+            <h4>Problems with delete:</h4>
+            <ul>
+              <li>❌ Leaves "holes" in the array</li>
+              <li>❌ Doesn't change array length</li>
+              <li>❌ Creates sparse array (bad performance)</li>
+              <li>❌ Confusing behavior</li>
+            </ul>
+            
+            <div class="callout danger">
+              <strong>Best Practice:</strong> Use splice(), pop(), or shift() instead of delete!
+            </div>
+          `
+        }
+      ],
+      xpReward: 85
+    }
+  },
+
+  // ═══════════════════════════════════════════════════════════════════
+  // MODULE 8: Searching in Arrays
+  // ═══════════════════════════════════════════════════════════════════
+  {
+    id: 'array-searching',
+    title: '🔍 Searching in Arrays',
+    description: '🎯 Learn linear search, indexOf, includes, and find methods',
+    type: 'concept',
+    difficulty: 'beginner',
+    duration: 15,
+    xpReward: 95,
+    completed: false,
+    unlocked: false,
+    prerequisite: ['array-deletion'],
+    level: 1,
+    conceptConfig: {
+      id: 'array-searching',
+      title: 'Searching - Finding Elements',
+      description: 'Master different search techniques and methods',
+      steps: [
+        {
+          id: 'step1',
+          title: '🔍 Linear Search - The Basic Approach',
+          content: `
+            <h3>What is Linear Search?</h3>
+            <p>Linear search checks each element one by one until it finds the target or reaches the end.</p>
+            
+            <h4>Manual Implementation:</h4>
+            <pre><code>function linearSearch(arr, target) {
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] === target) {
+      return i;  // Found! Return index
+    }
+  }
+  return -1;  // Not found
+}
+
+const numbers = [10, 25, 30, 45, 50];
+console.log(linearSearch(numbers, 30));  // 2
+console.log(linearSearch(numbers, 99));  // -1
+</code></pre>
+            
+            <h4>⏱️ Time Complexity: O(n)</h4>
+            <ul>
+              <li>Best case: O(1) - element is first</li>
+              <li>Average case: O(n/2) ≈ O(n)</li>
+              <li>Worst case: O(n) - element is last or not found</li>
+            </ul>
+            
+            <div class="callout info">
+              <strong>When to Use:</strong> Unsorted arrays, small arrays, or when you need custom comparison logic
+            </div>
+          `
+        },
+        {
+          id: 'step2',
+          title: '📍 indexOf() & lastIndexOf()',
+          content: `
+            <h3>Built-in Search Methods</h3>
+            
+            <h4>indexOf() - Find First Occurrence</h4>
+            <pre><code>const fruits = ["Apple", "Banana", "Cherry", "Banana"];
+
+console.log(fruits.indexOf("Banana"));      // 1
+console.log(fruits.indexOf("Mango"));       // -1 (not found)
+console.log(fruits.indexOf("Cherry"));      // 2
+
+// Start searching from index 2
+console.log(fruits.indexOf("Banana", 2));   // 3
+</code></pre>
+            
+            <h4>lastIndexOf() - Find Last Occurrence</h4>
+            <pre><code>const numbers = [1, 2, 3, 2, 5, 2];
+
+console.log(numbers.lastIndexOf(2));        // 5 (last occurrence)
+console.log(numbers.lastIndexOf(2, 4));     // 3 (search backwards from index 4)
+</code></pre>
+            
+            <h4>Key Points:</h4>
+            <ul>
+              <li>Returns index of element (first/last match)</li>
+              <li>Returns -1 if not found</li>
+              <li>Uses strict equality (===)</li>
+              <li>Can specify starting position</li>
+            </ul>
+          `
+        },
+        {
+          id: 'step3',
+          title: '✅ includes() - Check Existence',
+          content: `
+            <h3>Check if Element Exists</h3>
+            <p>The <code>includes()</code> method returns true/false instead of index.</p>
+            
+            <pre><code>const colors = ["Red", "Green", "Blue"];
+
+console.log(colors.includes("Green"));   // true
+console.log(colors.includes("Yellow"));  // false
+
+// Case sensitive!
+console.log(colors.includes("red"));     // false
+
+// Start position
+const nums = [1, 2, 3, 4, 5];
+console.log(nums.includes(3, 2));        // true (search from index 2)
+console.log(nums.includes(2, 2));        // false (2 is before index 2)
+</code></pre>
+            
+            <h4>includes() vs indexOf():</h4>
+            <pre><code>// When you just need to check existence:
+if (arr.includes(5)) { }     // ✅ Clearer
+if (arr.indexOf(5) !== -1) { } // ❌ More verbose
+
+// When you need the position:
+const index = arr.indexOf(5);  // ✅ Use indexOf
+</code></pre>
+          `,
+          quiz: {
+            question: 'What does arr.indexOf("x") return if "x" is not found?',
+            options: ['0', 'undefined', '-1', 'null'],
+            correctAnswer: 2,
+            explanation: 'indexOf() returns -1 when the element is not found in the array.'
+          }
+        },
+        {
+          id: 'step4',
+          title: '🎯 find() & findIndex() - Custom Searches',
+          content: `
+            <h3>Advanced Search with Conditions</h3>
+            
+            <h4>find() - Get First Matching Element</h4>
+            <pre><code>const users = [
+  { id: 1, name: "Alice", age: 25 },
+  { id: 2, name: "Bob", age: 30 },
+  { id: 3, name: "Charlie", age: 35 }
+];
+
+// Find first user over 28
+const user = users.find(u => u.age > 28);
+console.log(user);  // { id: 2, name: "Bob", age: 30 }
+
+// Find by id
+const alice = users.find(u => u.id === 1);
+console.log(alice.name);  // "Alice"
+
+// Not found returns undefined
+const notFound = users.find(u => u.age > 100);
+console.log(notFound);  // undefined
+</code></pre>
+            
+            <h4>findIndex() - Get Index of Match</h4>
+            <pre><code>const numbers = [5, 12, 8, 130, 44];
+
+// Find index of first number > 10
+const index = numbers.findIndex(n => n > 10);
+console.log(index);  // 1
+
+// Not found returns -1
+const notFound = numbers.findIndex(n => n > 200);
+console.log(notFound);  // -1
+</code></pre>
+            
+            <div class="callout tip">
+              <strong>Use find/findIndex when:</strong> You need custom logic, working with objects, or complex conditions
+            </div>
+          `
+        }
+      ],
+      xpReward: 95
+    }
+  },
+
+  // ═══════════════════════════════════════════════════════════════════
+  // PRACTICE: Array Basics Mission
+  // ═══════════════════════════════════════════════════════════════════
   {
     id: 'array-basics-playground',
-    title: 'Array Basics Practice',
-    description: 'Practice creating and manipulating simple arrays',
+    title: '🎮 Mission 1: Array Basics Quest',
+    description: '💪 Put your skills to the test! Solve array manipulation challenges',
     type: 'playground',
     difficulty: 'beginner',
-    duration: 20,
+    duration: 25,
     xpReward: 150,
     completed: false,
     unlocked: false,
-    prerequisite: ['arrays-introduction', 'array-access'],
+    prerequisite: ['array-searching'],
     level: 1,
     playgroundConfig: {
       id: 'array-basics-playground',
-      title: 'Array Basics Practice',
-      description: 'Create a function that returns the first and last elements of an array',
-      starterCode: `function getFirstAndLast(arr) {
+      title: 'Array Basics Challenge',
+      description: 'Create a function that returns the maximum element in an array',
+      starterCode: `function findMaximum(arr) {
   // Your code here
-  // Return an array with first and last elements
+  // Return the largest number in the array
+  // Example: [3, 7, 2, 9, 1] should return 9
   
 }
 
 // Test your function
-console.log(getFirstAndLast([1, 2, 3, 4, 5])); // Should return [1, 5]`,
-      solution: `function getFirstAndLast(arr) {
-  if (arr.length === 0) return [];
-  if (arr.length === 1) return [arr[0]];
-  return [arr[0], arr[arr.length - 1]];
+console.log(findMaximum([3, 7, 2, 9, 1]));  // Should return 9
+console.log(findMaximum([10]));             // Should return 10
+console.log(findMaximum([-5, -2, -10]));    // Should return -2`,
+      solution: `function findMaximum(arr) {
+  if (arr.length === 0) return undefined;
+  
+  let max = arr[0];
+  for (let i = 1; i < arr.length; i++) {
+    if (arr[i] > max) {
+      max = arr[i];
+    }
+  }
+  return max;
+  
+  // Or using Math.max:
+  // return Math.max(...arr);
 }`,
       hints: [
-        'Remember arrays are zero-indexed',
-        'Handle edge cases like empty arrays',
-        'Use arr.length - 1 to get the last index'
+        'Start by assuming the first element is the maximum',
+        'Loop through the array and compare each element',
+        'Update max whenever you find a larger element',
+        'Edge case: What if the array is empty?'
       ],
       testCases: [
-        'getFirstAndLast([1, 2, 3, 4, 5]) should return [1, 5]',
-        'getFirstAndLast([42]) should return [42]',
-        'getFirstAndLast([]) should return []'
+        'findMaximum([3, 7, 2, 9, 1]) should return 9',
+        'findMaximum([10]) should return 10',
+        'findMaximum([-5, -2, -10]) should return -2',
+        'findMaximum([]) should return undefined'
       ],
       difficulty: 'beginner',
       xpReward: 150
     }
   },
+
+  // ═══════════════════════════════════════════════════════════════════
+  // MODULE 9: Simple Sorting Introduction
+  // ═══════════════════════════════════════════════════════════════════
   {
-    id: 'beginner-revision',
-    title: 'Level 1 Assessment',
-    description: 'Test your understanding of basic array concepts',
-    type: 'revision',
+    id: 'array-sorting-intro',
+    title: '📊 Introduction to Sorting',
+    description: '🔄 Learn the basics of array sorting with Bubble Sort',
+    type: 'concept',
     difficulty: 'beginner',
-    duration: 25,
-    xpReward: 200,
+    duration: 18,
+    xpReward: 100,
     completed: false,
     unlocked: false,
     prerequisite: ['array-basics-playground'],
+    level: 1,
+    conceptConfig: {
+      id: 'array-sorting-intro',
+      title: 'Sorting Basics - Organizing Data',
+      description: 'Understand why sorting matters and learn Bubble Sort',
+      steps: [
+        {
+          id: 'step1',
+          title: '📊 Why Sorting Matters',
+          content: `
+            <h3>The Power of Organization 📚</h3>
+            <p>Sorting is one of the most fundamental operations in computer science!</p>
+            
+            <h4>Real-World Uses:</h4>
+            <ul>
+              <li>📧 Email inbox by date/sender</li>
+              <li>🛒 Products by price/rating</li>
+              <li>📞 Contacts alphabetically</li>
+              <li>📊 Leaderboards by score</li>
+              <li>🔍 Faster searching (binary search needs sorted data!)</li>
+            </ul>
+            
+            <h4>Sorting Orders:</h4>
+            <pre><code>// Ascending (smallest to largest)
+[1, 2, 3, 4, 5]
+["Alice", "Bob", "Charlie"]
+
+// Descending (largest to smallest)
+[5, 4, 3, 2, 1]
+["Charlie", "Bob", "Alice"]
+</code></pre>
+            
+            <div class="callout info">
+              <strong>Fun Fact:</strong> About 25% of all computer time is spent on sorting!
+            </div>
+          `
+        },
+        {
+          id: 'step2',
+          title: '🫧 Bubble Sort - The Simplest Algorithm',
+          content: `
+            <h3>How Bubble Sort Works</h3>
+            <p>Bubble Sort repeatedly "bubbles" the largest element to the end by comparing adjacent pairs.</p>
+            
+            <h4>Visual Example:</h4>
+            <pre><code>Start: [5, 2, 8, 1, 9]
+
+Pass 1:
+[5, 2, 8, 1, 9] → [2, 5, 8, 1, 9] (swap 5 and 2)
+[2, 5, 8, 1, 9] → [2, 5, 8, 1, 9] (no swap)
+[2, 5, 8, 1, 9] → [2, 5, 1, 8, 9] (swap 8 and 1)
+[2, 5, 1, 8, 9] → [2, 5, 1, 8, 9] (no swap)
+
+Result after Pass 1: [2, 5, 1, 8, 9] (9 is in place!)
+
+Pass 2:
+[2, 5, 1, 8, 9] → [2, 1, 5, 8, 9] (swap 5 and 1)
+[2, 1, 5, 8, 9] → [2, 1, 5, 8, 9] (no swap)
+
+Continue until sorted: [1, 2, 5, 8, 9]
+</code></pre>
+            
+            <h4>The Algorithm:</h4>
+            <ol>
+              <li>Compare each pair of adjacent elements</li>
+              <li>Swap them if they're in wrong order</li>
+              <li>Repeat for all elements</li>
+              <li>After each pass, one more element is in correct position</li>
+            </ol>
+          `
+        },
+        {
+          id: 'step3',
+          title: '💻 Bubble Sort Code',
+          content: `
+            <h3>Implementation</h3>
+            
+            <pre><code>function bubbleSort(arr) {
+  const n = arr.length;
+  
+  // Outer loop: number of passes
+  for (let i = 0; i < n - 1; i++) {
+    // Inner loop: compare adjacent elements
+    for (let j = 0; j < n - i - 1; j++) {
+      // Swap if left > right
+      if (arr[j] > arr[j + 1]) {
+        // Swap elements
+        const temp = arr[j];
+        arr[j] = arr[j + 1];
+        arr[j + 1] = temp;
+      }
+    }
+  }
+  
+  return arr;
+}
+
+// Test it!
+const numbers = [64, 34, 25, 12, 22, 11, 90];
+bubbleSort(numbers);
+console.log(numbers);  // [11, 12, 22, 25, 34, 64, 90]
+</code></pre>
+            
+            <h4>Optimized Version (with Early Exit):</h4>
+            <pre><code>function bubbleSortOptimized(arr) {
+  const n = arr.length;
+  
+  for (let i = 0; i < n - 1; i++) {
+    let swapped = false;
+    
+    for (let j = 0; j < n - i - 1; j++) {
+      if (arr[j] > arr[j + 1]) {
+        [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]]; // ES6 swap
+        swapped = true;
+      }
+    }
+    
+    // If no swaps, array is sorted!
+    if (!swapped) break;
+  }
+  
+  return arr;
+}
+</code></pre>
+            
+            <h4>⏱️ Time Complexity:</h4>
+            <ul>
+              <li>Best Case: O(n) - already sorted</li>
+              <li>Average Case: O(n²)</li>
+              <li>Worst Case: O(n²) - reverse sorted</li>
+            </ul>
+          `,
+          quiz: {
+            question: 'How many passes does Bubble Sort need for an array of 5 elements in worst case?',
+            options: ['3', '4', '5', '6'],
+            correctAnswer: 1,
+            explanation: 'Bubble Sort needs n-1 passes for n elements. So for 5 elements, it needs 4 passes.'
+          }
+        }
+      ],
+      xpReward: 100
+    }
+  },
+
+  // ═══════════════════════════════════════════════════════════════════
+  // PRACTICE: Sorting Challenge
+  // ═══════════════════════════════════════════════════════════════════
+  {
+    id: 'sorting-playground',
+    title: '🎮 Mission 2: Sorting Quest',
+    description: '🔄 Implement your own sorting algorithm!',
+    type: 'playground',
+    difficulty: 'beginner',
+    duration: 30,
+    xpReward: 175,
+    completed: false,
+    unlocked: false,
+    prerequisite: ['array-sorting-intro'],
+    level: 1,
+    playgroundConfig: {
+      id: 'sorting-playground',
+      title: 'Implement Bubble Sort',
+      description: 'Write a function that sorts an array using bubble sort algorithm',
+      starterCode: `function bubbleSort(arr) {
+  // Your code here
+  // Sort the array in ascending order
+  // Hint: Use nested loops and swap adjacent elements
+  
+  return arr;
+}
+
+// Test your function
+console.log(bubbleSort([64, 34, 25, 12, 22, 11, 90]));
+// Should return [11, 12, 22, 25, 34, 64, 90]`,
+      solution: `function bubbleSort(arr) {
+  const n = arr.length;
+  
+  for (let i = 0; i < n - 1; i++) {
+    let swapped = false;
+    
+    for (let j = 0; j < n - i - 1; j++) {
+      if (arr[j] > arr[j + 1]) {
+        // Swap
+        const temp = arr[j];
+        arr[j] = arr[j + 1];
+        arr[j + 1] = temp;
+        swapped = true;
+      }
+    }
+    
+    // Optimization: stop if no swaps occurred
+    if (!swapped) break;
+  }
+  
+  return arr;
+}`,
+      hints: [
+        'Use two nested loops - outer for passes, inner for comparisons',
+        'Compare each element with the next one: arr[j] > arr[j+1]',
+        'Swap if they are in wrong order',
+        'Each pass places one element in its final position',
+        'Optimization: stop if no swaps occur in a pass'
+      ],
+      testCases: [
+        'bubbleSort([64, 34, 25, 12, 22, 11, 90]) should return [11, 12, 22, 25, 34, 64, 90]',
+        'bubbleSort([5, 1, 4, 2, 8]) should return [1, 2, 4, 5, 8]',
+        'bubbleSort([1, 2, 3]) should return [1, 2, 3]',
+        'bubbleSort([3, 2, 1]) should return [1, 2, 3]'
+      ],
+      difficulty: 'beginner',
+      xpReward: 175
+    }
+  },
+
+  // ═══════════════════════════════════════════════════════════════════
+  // FINAL ASSESSMENT: Level 1 Complete Test
+  // ═══════════════════════════════════════════════════════════════════
+  {
+    id: 'beginner-revision',
+    title: '🏆 Level 1 Assessment: Array Explorer Exam',
+    description: '🎓 Final test! Prove your mastery of array fundamentals and earn your badge',
+    type: 'revision',
+    difficulty: 'beginner',
+    duration: 30,
+    xpReward: 250,
+    completed: false,
+    unlocked: false,
+    prerequisite: ['sorting-playground'],
     level: 1,
     revisionConfig: {
       id: 'beginner-revision',
       level: 'beginner',
       passingScore: 70,
-      timeLimit: 25,
-      xpReward: 200,
+      timeLimit: 30,
+      xpReward: 250,
       mcqQuestions: [
         {
           id: 'mcq-1',
@@ -233,7 +1320,7 @@ console.log(getFirstAndLast([1, 2, 3, 4, 5])); // Should return [1, 5]`,
           options: ['1', '0', '-1', 'undefined'],
           correctAnswer: 1,
           explanation: 'Arrays in JavaScript are zero-indexed, meaning the first element is at index 0.',
-          points: 20
+          points: 10
         },
         {
           id: 'mcq-2',
@@ -241,7 +1328,7 @@ console.log(getFirstAndLast([1, 2, 3, 4, 5])); // Should return [1, 5]`,
           options: ['myArray.size', 'myArray.length', 'myArray.count()', 'length(myArray)'],
           correctAnswer: 1,
           explanation: 'The length property returns the number of elements in an array.',
-          points: 20
+          points: 10
         },
         {
           id: 'mcq-3',
@@ -249,47 +1336,150 @@ console.log(getFirstAndLast([1, 2, 3, 4, 5])); // Should return [1, 5]`,
           options: ['Error is thrown', 'Returns null', 'Returns undefined', 'Returns 0'],
           correctAnswer: 2,
           explanation: 'Accessing a non-existent index returns undefined in JavaScript.',
-          points: 20
+          points: 10
         },
         {
           id: 'mcq-4',
-          question: 'Which is the correct way to create an empty array?',
-          options: ['const arr = [];', 'const arr = {};', 'const arr = new Array[];', 'const arr = array();'],
-          correctAnswer: 0,
-          explanation: 'Square brackets [] create an empty array literal.',
-          points: 20
+          question: 'Which method is FASTEST for adding elements to the END of an array?',
+          options: ['unshift()', 'splice()', 'push()', 'concat()'],
+          correctAnswer: 2,
+          explanation: 'push() is O(1) constant time - fastest way to add to the end!',
+          points: 10
         },
         {
           id: 'mcq-5',
-          question: 'What is the last index of an array with length 5?',
-          options: ['5', '4', '6', '3'],
+          question: 'What is the time complexity of linear search?',
+          options: ['O(1)', 'O(log n)', 'O(n)', 'O(n²)'],
+          correctAnswer: 2,
+          explanation: 'Linear search checks each element one by one, giving O(n) time complexity.',
+          points: 10
+        },
+        {
+          id: 'mcq-6',
+          question: 'If an array has length 10, what is the index of the last element?',
+          options: ['10', '9', '11', 'undefined'],
           correctAnswer: 1,
-          explanation: 'Since arrays are zero-indexed, the last index is length - 1 = 5 - 1 = 4.',
-          points: 20
+          explanation: 'Last index is always length - 1. So 10 - 1 = 9.',
+          points: 10
+        },
+        {
+          id: 'mcq-7',
+          question: 'What does arr.pop() return?',
+          options: ['The first element', 'The last element', 'The array length', 'undefined'],
+          correctAnswer: 1,
+          explanation: 'pop() removes and returns the last element of the array.',
+          points: 10
+        },
+        {
+          id: 'mcq-8',
+          question: 'Which is the correct way to create an empty array?',
+          options: ['const arr = [];', 'const arr = {};', 'const arr = new Array[];', 'const arr = array();'],
+          correctAnswer: 0,
+          explanation: 'Square brackets [] create an empty array literal - the recommended way!',
+          points: 10
+        },
+        {
+          id: 'mcq-9',
+          question: 'What is the time complexity of Bubble Sort in worst case?',
+          options: ['O(1)', 'O(n)', 'O(n log n)', 'O(n²)'],
+          correctAnswer: 3,
+          explanation: 'Bubble Sort has O(n²) time complexity due to nested loops.',
+          points: 10
+        },
+        {
+          id: 'mcq-10',
+          question: 'What does arr.indexOf("x") return if "x" is not found?',
+          options: ['0', 'undefined', '-1', 'null'],
+          correctAnswer: 2,
+          explanation: 'indexOf() returns -1 when the element is not found.',
+          points: 10
         }
       ],
       codingChallenges: [
         {
           id: 'coding-1',
-          title: 'Array Sum',
-          description: 'Calculate the sum of all numbers in an array',
-          starterCode: `function sumArray(numbers) {
+          title: 'Find Maximum Element',
+          description: 'Write a function that finds and returns the maximum element in an array',
+          starterCode: `function findMax(arr) {
   // Your code here
   
 }`,
-          solution: `function sumArray(numbers) {
-  let sum = 0;
-  for (let i = 0; i < numbers.length; i++) {
-    sum += numbers[i];
+          solution: `function findMax(arr) {
+  if (arr.length === 0) return undefined;
+  
+  let max = arr[0];
+  for (let i = 1; i < arr.length; i++) {
+    if (arr[i] > max) {
+      max = arr[i];
+    }
   }
-  return sum;
+  return max;
 }`,
           testCases: [
-            'sumArray([1, 2, 3, 4, 5]) === 15',
-            'sumArray([]) === 0',
-            'sumArray([-1, 1, -2, 2]) === 0'
+            'findMax([1, 5, 3, 9, 2]) === 9',
+            'findMax([-1, -5, -3]) === -1',
+            'findMax([42]) === 42'
+          ],
+          points: 30,
+          difficulty: 'beginner'
+        },
+        {
+          id: 'coding-2',
+          title: 'Remove Duplicates',
+          description: 'Create a function that removes duplicate elements from an array',
+          starterCode: `function removeDuplicates(arr) {
+  // Return array with unique elements only
+  
+}`,
+          solution: `function removeDuplicates(arr) {
+  const unique = [];
+  for (let i = 0; i < arr.length; i++) {
+    if (!unique.includes(arr[i])) {
+      unique.push(arr[i]);
+    }
+  }
+  return unique;
+  // Or using Set: return [...new Set(arr)];
+}`,
+          testCases: [
+            'removeDuplicates([1, 2, 2, 3, 3, 4]) returns [1, 2, 3, 4]',
+            'removeDuplicates([1, 1, 1, 1]) returns [1]',
+            'removeDuplicates([]) returns []'
           ],
           points: 40,
+          difficulty: 'beginner'
+        },
+        {
+          id: 'coding-3',
+          title: 'Reverse Array In-Place',
+          description: 'Reverse an array without using built-in reverse() method',
+          starterCode: `function reverseArray(arr) {
+  // Reverse the array in-place
+  // Don't use arr.reverse()!
+  
+}`,
+          solution: `function reverseArray(arr) {
+  let left = 0;
+  let right = arr.length - 1;
+  
+  while (left < right) {
+    // Swap elements
+    const temp = arr[left];
+    arr[left] = arr[right];
+    arr[right] = temp;
+    
+    left++;
+    right--;
+  }
+  
+  return arr;
+}`,
+          testCases: [
+            'reverseArray([1, 2, 3, 4, 5]) returns [5, 4, 3, 2, 1]',
+            'reverseArray(["a", "b", "c"]) returns ["c", "b", "a"]',
+            'reverseArray([42]) returns [42]'
+          ],
+          points: 30,
           difficulty: 'beginner'
         }
       ]

@@ -107,6 +107,7 @@ import MasteryTestPage from './pages/MasteryTestPage.tsx';
 import LoginPage from './pages/LoginPage.tsx';
 import LearnFirstProblemPage from './pages/LearnFirstProblemPage.tsx';
 import MigrateProblemsPage from './pages/MigrateProblemsPage.tsx';
+import Leaderboard from './components/Leaderboard.tsx';
 
 // Context imports
 import { CourseProgressProvider } from './context/CourseProgressContext.tsx';
@@ -202,6 +203,7 @@ const App: React.FC = () => {
                 <Route path="/revision/:level" element={<RevisionTestPage />} />
                 <Route path="/mastery-test" element={<MasteryTestPage />} />
                 <Route path="/progress" element={<ProgressPage />} />
+                <Route path="/leaderboard" element={<Leaderboard />} />
 
                 {/* 404 route */}
                 <Route path="*" element={<NotFound />} />

@@ -380,11 +380,12 @@ export interface LeaderboardEntry {
   name: string;
   photoURL?: string;
   xp: number;
+  level: number;
   streak: number;
 }
 
 /**
- * Get leaderboard data
+ * Get leaderboard data sorted by XP
  */
 export const getLeaderboard = async (maxResults = 10): Promise<LeaderboardEntry[]> => {
   try {
@@ -397,10 +398,57 @@ export const getLeaderboard = async (maxResults = 10): Promise<LeaderboardEntry[
       name: doc.data().name || 'Anonymous',
       photoURL: doc.data().photoURL,
       xp: doc.data().xp || 0,
+      level: doc.data().level || 1,
       streak: doc.data().streak?.current || 0
     }));
   } catch (error) {
     console.error('Error fetching leaderboard:', error);
+    throw error;
+  }
+};
+
+/**
+ * Get leaderboard data sorted by level
+ */
+export const getLeaderboardByLevel = async (maxResults = 10): Promise<LeaderboardEntry[]> => {
+  try {
+    const leaderboardRef = collection(db, 'users');
+    const q = query(leaderboardRef, orderBy('level', 'desc'), orderBy('xp', 'desc'), limit(maxResults));
+    const snapshot = await getDocs(q);
+
+    return snapshot.docs.map(doc => ({
+      userId: doc.id,
+      name: doc.data().name || 'Anonymous',
+      photoURL: doc.data().photoURL,
+      xp: doc.data().xp || 0,
+      level: doc.data().level || 1,
+      streak: doc.data().streak?.current || 0
+    }));
+  } catch (error) {
+    console.error('Error fetching leaderboard by level:', error);
+    throw error;
+  }
+};
+
+/**
+ * Get leaderboard data sorted by streak
+ */
+export const getLeaderboardByStreak = async (maxResults = 10): Promise<LeaderboardEntry[]> => {
+  try {
+    const leaderboardRef = collection(db, 'users');
+    const q = query(leaderboardRef, orderBy('streak.current', 'desc'), limit(maxResults));
+    const snapshot = await getDocs(q);
+
+    return snapshot.docs.map(doc => ({
+      userId: doc.id,
+      name: doc.data().name || 'Anonymous',
+      photoURL: doc.data().photoURL,
+      xp: doc.data().xp || 0,
+      level: doc.data().level || 1,
+      streak: doc.data().streak?.current || 0
+    }));
+  } catch (error) {
+    console.error('Error fetching leaderboard by streak:', error);
     throw error;
   }
 };
