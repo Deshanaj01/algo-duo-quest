@@ -9,7 +9,7 @@ import {
   getOrCreateUserProfile,
   calculateLevel,
   getCurrentLevelProgress
-} from '../services/firestoreService';
+} from '../services/firestoreService.ts';
 import { UserProfile } from '../types/firestore';
 
 export interface FirestoreUserData {

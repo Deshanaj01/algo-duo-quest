@@ -1,7 +1,8 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import { xpThresholds, getLevelForXP, getLevelBounds, getProgressForXP } from '../utils/xp.ts';
 import { useAuth } from './AuthContext.tsx';
 import { updateXP } from '../services/firestoreService.ts';
+import { useFirestoreUser } from '../hooks/useFirestoreUser.ts';
 
 // Types for gamification
 export interface Achievement {
@@ -182,6 +183,7 @@ const levelInfo = [
 
 export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { user } = useAuth();
+  const { profile } = useFirestoreUser(user);
 
   const initialXP = 0;
   const prog = getProgressForXP(initialXP);
@@ -231,11 +233,59 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return getLevelForXP(totalXP);
   };
 
+  // Keep GameContext userStats in sync with Firestore profile XP/level
+  useEffect(() => {
+    if (!profile) return;
+    const totalXP = profile.xp || 0;
+    const level = profile.level || getLevelForXP(totalXP);
+    const progSync = getProgressForXP(totalXP);
+    setUserStats(prev => ({
+      ...prev,
+      totalXP,
+      level,
+      currentLevelXP: progSync.currentLevelXP,
+      xpToNextLevel: progSync.xpToNextLevel,
+      rank: getLevelInfo(level).title,
+    }));
+  }, [profile]);
+
   const earnXP = (amount: number, reason: string) => {
+    // #region agent log
+    fetch('http://127.0.0.1:7636/ingest/eb9226df-3a87-4a4d-b980-a9535ec6387b', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Debug-Session-Id': '1ddd24' },
+      body: JSON.stringify({
+        sessionId: '1ddd24',
+        runId: 'initial',
+        hypothesisId: 'H1',
+        location: 'GameContext.tsx:earnXP:entry',
+        message: 'earnXP called',
+        data: { amount, reason, uid: user?.uid || null, totalXP: userStats.totalXP },
+        timestamp: Date.now(),
+      }),
+    }).catch(() => {});
+    // #endregion
+
     // Persist to backend if logged in, then sync local state
     if (user?.uid) {
       void updateXP(user.uid, amount)
         .then(({ newXP, newLevel }) => {
+          // #region agent log
+          fetch('http://127.0.0.1:7636/ingest/eb9226df-3a87-4a4d-b980-a9535ec6387b', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-Debug-Session-Id': '1ddd24' },
+            body: JSON.stringify({
+              sessionId: '1ddd24',
+              runId: 'initial',
+              hypothesisId: 'H1',
+              location: 'GameContext.tsx:earnXP:afterUpdateXP',
+              message: 'earnXP updated user XP',
+              data: { amount, reason, uid: user?.uid || null, newXP, newLevel },
+              timestamp: Date.now(),
+            }),
+          }).catch(() => {});
+          // #endregion
+
           const prog = getProgressForXP(newXP);
           setUserStats(prev => ({
             ...prev,

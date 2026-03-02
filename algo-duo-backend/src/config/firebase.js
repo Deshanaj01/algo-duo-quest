@@ -1,21 +1,23 @@
-// src/firebase.js
-import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider } from "firebase/auth";
-import { getAnalytics } from "firebase/analytics";
+const admin = require('firebase-admin');
 
-// Your Firebase config
-const firebaseConfig = {
-  apiKey: "AIzaSyCuNTpgr-1hUobmWd5uZfSfKtpF6KjXxp8",
-  authDomain: "codepilot-89ccc.firebaseapp.com",
-  projectId: "codepilot-89ccc",
-  storageBucket: "codepilot-89ccc.firebasestorage.app",
-  messagingSenderId: "1008145062045",
-  appId: "1:1008145062045:web:ac9ac8461fc528b2d49c74",
-  measurementId: "G-H09K00J1DM"
-};
+// Initialize Firebase Admin SDK
+if (!admin.apps.length) {
+  const config = {};
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);               // For Google Auth
-export const provider = new GoogleAuthProvider();
-export const analytics = getAnalytics(app);
+  if (process.env.FIREBASE_SERVICE_ACCOUNT) {
+    config.credential = admin.credential.cert(
+      JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT)
+    );
+  } else if (process.env.GOOGLE_APPLICATION_CREDENTIALS) {
+    config.credential = admin.credential.applicationDefault();
+  } else {
+    config.projectId = process.env.FIREBASE_PROJECT_ID || 'algo-duo-quest-37286300-b56fc';
+  }
+
+  admin.initializeApp(config);
+}
+
+const adminDb = admin.firestore();
+const adminAuth = admin.auth();
+
+module.exports = { admin, adminDb, adminAuth };

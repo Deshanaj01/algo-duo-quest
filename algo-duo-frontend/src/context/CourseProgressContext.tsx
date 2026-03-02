@@ -38,9 +38,10 @@ const getInitialLessons = (): CourseLesson[] => {
       return allArrayCourseLessons.map(lesson => ({
         ...lesson,
         completed: progressData[lesson.id]?.completed || false,
-        unlocked: progressData[lesson.id]?.unlocked !== undefined 
-          ? progressData[lesson.id].unlocked 
-          : lesson.unlocked
+        // Always respect the static curriculum unlocking as the minimum:
+        // if the lesson is marked unlocked in the data file, it should never appear locked
+        // even if older local progress stored it as locked.
+        unlocked: lesson.unlocked || progressData[lesson.id]?.unlocked || false
       }));
     }
   } catch (error) {

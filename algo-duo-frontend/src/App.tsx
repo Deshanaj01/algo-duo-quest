@@ -108,6 +108,9 @@ import LoginPage from './pages/LoginPage.tsx';
 import LearnFirstProblemPage from './pages/LearnFirstProblemPage.tsx';
 import MigrateProblemsPage from './pages/MigrateProblemsPage.tsx';
 import Leaderboard from './components/Leaderboard.tsx';
+import CombatLobbyPage from './pages/CombatLobbyPage.tsx';
+import CombatArenaPage from './pages/CombatArenaPage.tsx';
+import CombatResultsPage from './pages/CombatResultsPage.tsx';
 
 // Context imports
 import { CourseProgressProvider } from './context/CourseProgressContext.tsx';
@@ -204,6 +207,30 @@ const App: React.FC = () => {
                 <Route path="/mastery-test" element={<MasteryTestPage />} />
                 <Route path="/progress" element={<ProgressPage />} />
                 <Route path="/leaderboard" element={<Leaderboard />} />
+                <Route
+                  path="/combat"
+                  element={
+                    <ProtectedRoute>
+                      <CombatLobbyPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/combat/:matchId"
+                  element={
+                    <ProtectedRoute>
+                      <CombatArenaPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/combat/:matchId/results"
+                  element={
+                    <ProtectedRoute>
+                      <CombatResultsPage />
+                    </ProtectedRoute>
+                  }
+                />
 
                 {/* 404 route */}
                 <Route path="*" element={<NotFound />} />

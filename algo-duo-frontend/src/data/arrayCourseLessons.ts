@@ -62,7 +62,7 @@ export interface CourseLesson {
   completed: boolean;
   unlocked: boolean;
   prerequisite?: string[];
-  level: 1 | 2 | 3; // Beginner, Intermediate, Advanced
+  level: 1 | 2 | 3 | 4 | 5; // Beginner, Intermediate, Advanced, Expert, Master
   
   // Type-specific configs
   conceptConfig?: ConceptLesson;
@@ -466,8 +466,8 @@ console.log(arr);  // [1, 2, 3, undefined, undefined]
     duration: 15,
     xpReward: 90,
     completed: false,
-    unlocked: false,
-    prerequisite: ['array-length-properties'],
+    unlocked: true,
+    //prerequisite: ['array-length-properties'],
     level: 1,
     conceptConfig: {
       id: 'array-traversal',
@@ -1076,8 +1076,8 @@ console.log(findMaximum([-5, -2, -10]));    // Should return -2`,
     duration: 18,
     xpReward: 100,
     completed: false,
-    unlocked: false,
-    prerequisite: ['array-basics-playground'],
+    unlocked: true,
+    //prerequisite: ['array-basics-playground'],
     level: 1,
     conceptConfig: {
       id: 'array-sorting-intro',
@@ -1234,8 +1234,8 @@ console.log(numbers);  // [11, 12, 22, 25, 34, 64, 90]
     duration: 30,
     xpReward: 175,
     completed: false,
-    unlocked: false,
-    prerequisite: ['array-sorting-intro'],
+    unlocked: true,
+    //prerequisite: ['array-sorting-intro'],
     level: 1,
     playgroundConfig: {
       id: 'sorting-playground',
@@ -1304,8 +1304,8 @@ console.log(bubbleSort([64, 34, 25, 12, 22, 11, 90]));
     duration: 30,
     xpReward: 250,
     completed: false,
-    unlocked: false,
-    prerequisite: ['sorting-playground'],
+    unlocked: true,
+    //prerequisite: [],
     level: 1,
     revisionConfig: {
       id: 'beginner-revision',
@@ -2340,7 +2340,7 @@ export const masterLessons: CourseLesson[] = [
     completed: false,
     unlocked: false,
     prerequisite: ['expert-revision'],
-    level: 5,
+    level: 4,
     conceptConfig: {
       id: 'interview-patterns',
       title: 'Array Interview Patterns',

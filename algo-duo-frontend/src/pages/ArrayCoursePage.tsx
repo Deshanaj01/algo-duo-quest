@@ -41,7 +41,8 @@ const ArrayCoursePage = () => {
   const totalLessons = lessons.length;
   const completedLessons = lessons.filter(l => l.completed);
   const overallProgress = getTotalProgress();
-  const totalXP = completedLessons.reduce((total, lesson) => total + lesson.xpReward, 0);
+  // Use centralized XP from GameContext (synced with Firestore) instead of local calculation
+  const totalXP = userStats.totalXP;
   const nextLesson = getNextAvailableLesson();
 
   const levelData = {

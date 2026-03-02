@@ -1,15 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useGame } from '../context/GameContext.tsx';
 
 const HomePage = () => {
-  // Mock user data for now
-  const userStats = {
-    level: 2,
-    totalXP: 145,
-    streakDays: 3,
-    lessonsCompleted: 2,
-    rank: 'Learner'
-  };
+  // Use centralized GameContext for user stats (synced with Firestore)
+  const { userStats } = useGame();
   
   const { level, totalXP, streakDays, lessonsCompleted, rank } = userStats;
   
@@ -190,7 +185,7 @@ const HomePage = () => {
           </Link>
 
 
-          <Link to="/playground" style={{ textDecoration: 'none', color: 'inherit' }}>
+          <Link to="/daily-challenge" style={{ textDecoration: 'none', color: 'inherit' }}>
             <div style={{ 
               backgroundColor: '#2d3436', 
               padding: '25px', 
@@ -222,7 +217,7 @@ const HomePage = () => {
             </div>
           </Link>
 
-          <Link to="/playground" style={{ textDecoration: 'none', color: 'inherit' }}>
+          {/* <Link to="/playground" style={{ textDecoration: 'none', color: 'inherit' }}>
             <div style={{ 
               backgroundColor: '#2d3436', 
               padding: '25px', 
@@ -239,7 +234,7 @@ const HomePage = () => {
               <p style={{ color: '#ddd' }}>
                 Practice algorithms with our interactive code editor and visualizer.
               </p>
-              <div style={{ marginTop: '15px' }}>
+              <div style={{ marginTop: '15px', display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
                 <span style={{ 
                   backgroundColor: '#e17055', 
                   color: 'white', 
@@ -248,11 +243,96 @@ const HomePage = () => {
                   fontSize: '0.8rem',
                   fontWeight: 'bold'
                 }}>
-                  Try Now
+                  Try Playground
                 </span>
+                <Link
+                  to="/combat"
+                  style={{ textDecoration: 'none' }}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <span style={{ 
+                    backgroundColor: '#00b894', 
+                    color: 'white', 
+                    padding: '5px 15px', 
+                    borderRadius: '15px', 
+                    fontSize: '0.8rem',
+                    fontWeight: 'bold',
+                    whiteSpace: 'nowrap'
+                  }}>
+                    ⚔️ Code Combat
+                  </span>
+                </Link>
               </div>
             </div>
-          </Link>
+          </Link> */}
+          <div
+  style={{
+    backgroundColor: '#2d3436',
+    padding: '25px',
+    borderRadius: '12px',
+    border: '2px solid #e17055',
+    transition: 'transform 0.3s ease',
+    height: '100%'
+  }}
+  onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-5px)'}
+  onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+>
+  <h3 style={{ color: '#e17055', marginBottom: '15px' }}>
+    ⚡ Code Playground
+  </h3>
+
+  <p style={{ color: '#ddd' }}>
+    Practice algorithms with our interactive code editor and visualizer.
+  </p>
+
+  <div
+    style={{
+      marginTop: '15px',
+      display: 'flex',
+      gap: '10px',
+      flexWrap: 'wrap'
+    }}
+  >
+    {/* Playground Button */}
+    <Link
+      to="/playground"
+      style={{ textDecoration: 'none' }}
+    >
+      <span
+        style={{
+          backgroundColor: '#e17055',
+          color: 'white',
+          padding: '5px 15px',
+          borderRadius: '15px',
+          fontSize: '0.8rem',
+          fontWeight: 'bold'
+        }}
+      >
+        Try Playground
+      </span>
+    </Link>
+
+    {/* Combat Button */}
+    <Link
+      to="/combat"
+      style={{ textDecoration: 'none' }}
+    >
+      <span
+        style={{
+          backgroundColor: '#00b894',
+          color: 'white',
+          padding: '5px 15px',
+          borderRadius: '15px',
+          fontSize: '0.8rem',
+          fontWeight: 'bold',
+          whiteSpace: 'nowrap'
+        }}
+      >
+        ⚔️ Code Combat
+      </span>
+    </Link>
+  </div>
+</div>
         </div>
 
         {/* Learning Topics */}

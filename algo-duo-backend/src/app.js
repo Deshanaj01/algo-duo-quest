@@ -7,11 +7,12 @@ const rateLimit = require('express-rate-limit');
 
 // Import routes
 const authRoutes = require('./routes/auth.routes');
-const moduleRoutes = require('./routes/module.routes');
-const problemRoutes = require('./routes/problem.routes');
-const submissionRoutes = require('./routes/submission.routes');
-const leaderboardRoutes = require('./routes/leaderboard.routes');
-const analyticsRoutes = require('./routes/analytics.routes');
+// const moduleRoutes = require('./routes/module.routes');
+// const problemRoutes = require('./routes/problem.routes');
+// const submissionRoutes = require('./routes/submission.routes');
+// const leaderboardRoutes = require('./routes/leaderboard.routes');
+// const analyticsRoutes = require('./routes/analytics.routes');
+ const combatRoutes = require('./routes/combat.routes');
 
 // Import middleware
 const errorMiddleware = require('./middleware/error.middleware');
@@ -44,11 +45,12 @@ if (process.env.NODE_ENV === 'development') {
 
 // API Routes
 app.use('/api/auth', authRoutes);
-app.use('/api/modules', moduleRoutes);
-app.use('/api/problems', problemRoutes);
-app.use('/api/submissions', submissionRoutes);
-app.use('/api/leaderboard', leaderboardRoutes);
-app.use('/api/analytics', analyticsRoutes);
+// app.use('/api/modules', moduleRoutes);
+// app.use('/api/problems', problemRoutes);
+// app.use('/api/submissions', submissionRoutes);
+// app.use('/api/leaderboard', leaderboardRoutes);
+// app.use('/api/analytics', analyticsRoutes);
+ app.use('/api/combat', combatRoutes);
 
 // Health check endpoint
 app.get('/health', (req, res) => {
